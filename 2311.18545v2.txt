@@ -1,0 +1,460 @@
+D ECENTRALIZED D EEPFAKE D ETECTION B LOCKCHAIN
+N ETWORK USING DYNAMIC A LGORITHM MANAGEMENT
+
+arXiv:2311.18545v2 [cs.CR] 1 Dec 2023
+
+A P REPRINT
+Dipankar Sarkar
+Cryptuon Research
+me@dipankar.name
+
+December 5, 2023
+
+A BSTRACT
+Deepfake technology is a major threat to the integrity of digital media. This paper presents a comprehensive framework for a blockchain-based decentralized system designed to tackle the escalating
+challenge of digital content integrity. The proposed system integrates advanced deep learning algorithms with the immutable and transparent nature of blockchain technology to create a trustless
+environment where authenticity can be verified without relying on a single centralized authority.
+Furthermore, the system utilizes smart contracts for dynamic algorithm management and token-based
+incentives further enhances the system’s effectiveness and adaptability. The decentralized architecture
+of the system democratizes the process of verifying digital content and introduces a novel approach
+to combat deepfakes. The collaborative and adjustable nature of this system sets a new benchmark
+for digital media integrity, offering a more robust digital media environment.
+Keywords deepfake, deep learning, blockchain, decentralisation, trustless, media, algorithms
+
+1
+
+Introduction
+
+In the digital age, the accuracy of digital media has become a key factor in reliable communication. The emergence of
+deepfake technology, which uses advanced artificial intelligence (AI) to alter audio and video material, presents an
+unprecedented challenge to the integrity of information. Deepfakes can undermine public discourse, endanger privacy
+rights, and disrupt democratic processes by creating convincingly realistic media content.
+The rapid development of deepfakes has made the problem worse. As detection methods become more advanced, so
+do the techniques used to create more complex forgeries, resulting in a competition between forgers and detectors.
+Traditional centralized methods of content verification are unable to keep up with the vast amount of content and the
+complexity of these manipulations. Therefore, there is an urgent need for a decentralized, scalable, and constantly
+evolving system that can verify digital media.
+This paper presents a new blockchain-based decentralized system that is intended to tackle the issue of deepfake
+detection. Our system takes advantage of the immutable and transparent features of blockchain technology to create a
+trustless environment where the authenticity of data can be confirmed without relying on a single centralized entity.
+Additionally, the system uses smart contracts to motivate the development and implementation of the most advanced
+deepfake detection algorithms. Our contribution is threefold:
+1. Decentralization We propose a decentralized architecture that democratizes the verification process, allowing
+multiple stakeholders to participate in maintaining the integrity of digital media.
+2. Adaptability Recognizing the dynamic nature of AI-generated content manipulation, our system is designed
+to integrate new detection algorithms as they emerge. Smart contracts automatically manage the life cycle of
+these algorithms within the network, ensuring that only the most effective models are utilized.
+3. Incentivization To encourage the continuous improvement of deepfake detection technologies, our system
+rewards contributors with tokens based on the performance of their algorithms. This not only fosters a
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+competitive environment for innovation, but also ensures that the system remains at theforefront of detection
+capability.
+The rest of this paper is structured as follows: Section 2 reviews the existing literature on deepfake detection and its
+shortcomings. Section 3 outlines the theoretical basis of our proposed system. Section 4 outlines the system architecture,
+and Section 5 covers the deployment of the algorithms. Finally, we discuss the implications of our work and potential
+directions for future research.
+
+2
+
+Related Work
+
+The digital content verification landscape is constantly changing as artificial intelligence (AI) progresses. To detect
+deepfakes, a variety of techniques have been used, from traditional digital watermarking to advanced machine learning
+(ML) algorithms. Research in this area suggests that blockchain’s decentralized trust mechanisms and AI’s analytical
+capabilities should be combined for deepfake detection. However, this integration requires new methods of algorithm
+management and incentive models to ensure a high level of adaptability and responsiveness to the ever-evolving
+deepfake technology.
+2.1
+
+Deepfake Detection
+
+The initial strategies for detecting manipulated content were heavily based on manual verification by experts. These
+techniques often included analysis of visual artifacts or inconsistencies within the content. [Rana et al., 2022] provided
+comprehensive literature review on deepfake detection summarizing various methodologies, a systematic review covered
+relevant articles from 2018 to 2020.
+With the rise of deepfakes, researchers quickly turned to machine learning for automated detection. [Masood et al.,
+2021] has detailed analysis of existing tools and ML approaches for deepfake generation and detection, presented in a
+state-of-the-art review, focusing on both audio and visual deepfakes.
+[Rössler et al., 2019] made significant strides with the introduction of the FaceForensics++ benchmark, which provided
+a data set to train and evaluate deepfake detection models. This data set became a foundational resource for future
+research in the field.
+2.2
+
+Blockchain - Trust Mechanism
+
+In parallel to advances in deepfake detection, blockchain technology has been explored as a means of establishing trust
+in digital transactions. The immutable nature of the blockchain makes it a powerful tool for verifying the authenticity
+of digital assets, as discussed by [Guo and Yu, 2022] in a survey on blockchain technology and its security, which
+compared various consensus algorithms and explored blockchain applications.
+The fusion of blockchain and AI for content verification is a relatively new area of research. A systematic review
+of blockchain research done by [Zheng and Lu, 2022] during the period 2016 to 2020 highlighted the technological
+characteristics and blockchain implementation models, setting the stage for further exploration in the context of deepfake
+detection.
+The use of smart contracts to dynamically manage and incentivize the performance of deepfake detection algorithms is
+an innovative approach that has not been extensively explored in existing literature. However, the concept of using smart
+contracts to facilitate decentralized autonomous organizations (DAOs) in other domains has been discussed in [Levis
+et al., 2021] investigating how blockchain-based applications might affect firms’ organizations and strategies by 2030.
+2.3
+
+Challenges and Limitations
+
+Despite these developments, challenges remain, particularly in the scalability and real-time application of detection
+methods. Current detection algorithms struggle to keep pace with the rapid improvements in deepfake generation,
+a problem highlighted in a comprehensive study by [Wang et al., 2023] from the reliability perspective of deepfake
+detection.
+Furthermore, the ability to detect re-recorded or subtly altered content has been a persistent challenge. The re-recording
+attack vector is particularly problematic, as it introduces anomalies that automated systems can overlook, as discussed
+in an analysis of deepfake detection techniques [Nguyen et al., 2022], which examined the use of sophisticated machine
+learning algorithms to create falsified media content. Meanwhile, accommodating legitimate alterations to content, such
+as cropping or resizing, without triggering false detections, is a delicate balance that requires further research.
+2
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+3
+
+Theoretical Framework
+
+This paper examines the theoretical basis of the proposed system, which integrates blockchain technology with AI for
+deepfake detection. The framework combines elements from computer science, cryptography, and machine learning to
+create a secure, decentralized solution for verifying digital media. The combination of blockchain and AI, with the
+help of smart contract technology, offers a promising way to address the difficulties posed by deepfakes. This system
+seeks to create a decentralized, transparent, and adaptive approach to authenticating digital content by utilizing these
+technologies.
+Blockchain Technology Blockchain serves as the backbone of the proposed system, providing a decentralized and
+immutable ledger to record transactions and data. The work of [Nakamoto, 2009] on Bitcoin introduced the concept of
+a decentralized ledger, laying the foundation for subsequent blockchain applications. Recent advances demonstrate the
+potential for blockchain to ensure data integrity and transparency in various domains, including verification of digital
+content.
+Smart Contracts Smart contracts are self-executing contracts with the terms of the agreement directly written in
+code. They are crucial for automating the management of deepfake detection algorithms within our system. [Wu et al.,
+2022] discussed the evolution of smart contract technology and its increasing role in facilitating complex decentralized
+applications.
+Deep Learning for Deepfake Detection Deep learning has become a powerful tool for detecting deep-fakes. [Passos
+et al., 2023] provide a comprehensive review of deep learning techniques used in biometric security, including deepfake
+detection. The adaptability of these models is crucial to keep up with the evolving nature of deep-fake technology.
+Integrating AI with Blockchain The integration of AI and blockchain for content verification is a novel approach
+that has been gaining traction. A study by [Wang et al., 2021] highlighted the potential of this integration to improve
+data security and trust in AI applications. They further discuss how blockchain can provide a framework for the reliable
+deployment of AI models, including those used in deep-fake detection.
+Algorithm Management and Dynamic Updating The dynamic management of algorithms is a critical aspect of
+the proposed system. The work of [Vyas et al., 2022] on the use of blockchains to manage AI agents in EHR systems
+emphasizes the importance of a flexible and adaptable system in response to rapidly evolving AI technologies.
+
+4
+
+System Architecture
+
+This system architecture incorporates blockchain technology, smart contracts, deep learning models, and a trusted
+content provider framework to create a comprehensive, decentralized solution for deepfake detection. This multi-faceted
+strategy guarantees the system’s efficacy, flexibility, and scalability.
+This architecture offers a comprehensive and dynamic approach to deepfake detection, combining the transparency and
+immutability of blockchain technology with sophisticated AI techniques and a reliable content provider framework.
+The system is designed to be adjustable, scalable, and efficient, addressing the difficulties posed by the ever-changing
+landscape of digital content manipulation.
+4.1
+
+Blockchain Network
+
+The blockchain network serves as a decentralized ledger that records all transactions and data associated with deepfake
+detection. These are the general configurations.
+• Nodes Nodes are categorized into full nodes, which maintain a complete copy of the blockchain, and specialized
+nodes, such as those responsible for validating transactions or hosting deep learning models.
+• Consensus Mechanism A Proof of Stake (PoS) model is employed for consensus, balancing energy efficiency
+and security.
+• Data Storage The blockchain stores cryptographic hashes of digital content, results from deepfake analysis,
+and references to trusted content provided by registered entities.
+3
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+Figure 1: System flow
+4.2
+
+Smart Contracts
+
+Smart contracts are utilized to automate essential operations within the network. These are the primary functions that
+are implemented using them.
+• Algorithm Management These contracts handle the registration, validation, and performance tracking of
+deepfake detection algorithms.
+• Trusted Content Registry Smart contracts also manage a trusted content registry, including metadata and
+hashes, provided by content creators or entities.
+• Incentive Distribution Token rewards are distributed based on algorithm performance and contributions from
+nodes or content providers.
+4.3
+
+Deep Learning Models
+
+Deep learning models are central to detecting deepfakes:
+• Model Hosting and Execution Models are hosted and executed off-chain to enhance computational efficiency,
+with results communicated back to the blockchain.
+• Integration with Trusted Content Some models leverage the trusted content dataset for improved accuracy,
+especially in detecting sophisticated deepfakes.
+4.4
+
+Trusted Content Provider Framework
+
+A vital component of the system is the trusted content provider framework:
+• Content Registration Content providers can submit original content, which is hashed and stored in the
+blockchain. This creates a reference dataset for deepfake detection and notification.
+• Notification Mechanism Providers are notified if their content is flagged as part of a deepfake, enhancing
+their ability to manage their digital reputation.
+4
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+Figure 2: Process for media analysis
+4.5
+
+User Interface
+
+The system includes a user interface for interaction with various stakeholders:
+• Content Submission and Retrieval Users submit content for analysis and access results, while content
+providers manage their trusted content.
+• Interfacing with Blockchain The interface communicates with the blockchain for submitting and retrieving
+data, maintaining user-friendly accessibility.
+4.6
+
+Oracle Service
+
+The oracle service links the off-chain and on-chain components:
+• Analysis Activation The service activates the deep learning models for content analysis upon request.
+• Result Communication After analysis, the oracle communicates the results to the blockchain for recordkeeping and user access.
+4.7
+
+Tokenomics
+
+The token economy incentivizes participation and sustains the ecosystem:
+• Rewards System Contributors, including algorithm developers, nodes, and content providers, receive tokens
+for their contributions.
+• Transaction Facilitation Tokens are used for various transactions, such as accessing advanced detection
+features.
+
+5
+
+Algorithm Deployment
+
+The quick advancement of multimedia material and the abundance of deepfakes necessitates a tactical and adjustable
+strategy for the implementation of the most up-to-date deepfake detection algorithms in a blockchain-based system.
+This section explains how audio, images, and video are managed with the help of sophisticated models, and provides
+links to the most recent studies in the area.
+5
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+The proposed system is designed to deploy algorithms dynamically, efficiently, and responsively to the changing nature
+of deepfakes. By taking advantage of the most recent developments in deep learning and AI, as well as a strategic
+approach to managing different media types, the system is intended to offer a strong defense against the increasing
+danger of deepfake technology.
+5.1
+
+Different Media Types
+
+5.1.1
+
+Images and Video
+
+Detection Models Utilize convolutional neural networks (CNNs) and generative adversarial networks (GANs) for
+image and video analysis, as these models excel in processing visual data. As suggested by [Tolosana et al., 2020] these
+models can effectively identify various deepfake techniques, including face modification and expression swaps.
+Embedding Generation For searching and comparison, models like those discussed by [Afchar et al., 2018] and [Li
+et al., 2021] can be used to generate embeddings that represent the unique features of each piece of content, helping to
+identify deep-fakes.
+5.1.2
+
+Audio
+
+Analysis Models Deploy models that specialize in audio processing, such as recurrent neural networks (RNNs) and
+their variants, which are adept at handling sequential data. This approach is informed by the work of [Deng et al., 2019],
+who exploited time-frequency patterns with LSTM-RNNs for low-bitrate audio restoration.
+Comparison with Trusted Datasets Use pre-trained models for voice recognition and comparison against trusted
+datasets, to detect impersonation and audio manipulation. This approach aligns with the work of [Radford et al., 2021],
+who demonstrated the robustness of speech recognition via large-scale weak supervision.
+5.2
+
+Model Deployment Strategy
+
+Model Selection and Updating The system dynamically selects the most suitable model based on the type of media
+and the specific characteristics of the content. This is informed by the research of [Masood et al., 2021], which highlights
+the importance of customized strategies for different fake techniques. Models are continuously updated and refined
+through a feedback loop, using performance metrics and user feedback to inform improvements.
+Off-Chain Execution for Efficiency Following the analysis by [Sariboz et al., 2021], off-chain execution is used to
+efficiently manage computational demands, particularly when dealing with large data sets and complex models.
+Incorporation of Transfer Learning Utilize transfer learning to accelerate model deployment, as it allows to leverage
+pre-trained models to quickly adapt to new deepfake techniques. This method is in line with the insights provided by
+[Kang et al., 2021].
+5.3
+
+Embedding and Search Mechanism
+
+Generating Embeddings Implement models to generate distinct embeddings for each piece of content, allowing
+quick search and comparison against the database of trusted content and previously analyzed media.
+Cross-Referencing with Trusted Content When a piece of content is submitted, its embeddings are compared with
+those of the trusted content database to identify potential matches or manipulations.
+5.4
+
+Addressing the Challenge of Evolving Deepfakes
+
+Adaptive Models The system incorporates the latest developments in AI and machine learning to adapt to new
+deep-fake techniques, as the technology continues to advance, as described by [Castillo Camacho and Wang, 2021].
+Community Contributions and Model Validation Encourage community contributions of new models, which are
+validated using the blockchain network and smart contracts to ensure reliability and effectiveness.
+6
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+Figure 3: System process diagram
+
+6
+
+Discussion
+
+This section offers an in-depth examination of the proposed blockchain-based deepfake detection system, exploring its
+advantages, drawbacks, potential improvements, and ethical implications, as well as addressing any implementation
+difficulties.
+This proposed blockchain-based deepfake detection system is a major advancement in tackling the difficulties posed
+by deepfake technology. It is designed to stay up-to-date and relevant by continually adapting and incorporating the
+latest advancements in blockchain and AI. To ensure the responsible and effective use of this technology, ethical
+considerations and a dedication to resolving implementation issues are essential.
+6.1
+
+System Strengths
+
+The main advantage of the proposed system is its creative combination of blockchain technology and sophisticated deep
+learning algorithms for the identification of deepfakes. This integration offers several key benefits:
+1. Decentralization and Transparency The blockchain framework ensures a decentralized and transparent
+process to verify digital content, mitigating risks associated with centralized control and potential biases.
+2. Dynamic Adaptability The system’s ability to dynamically update and integrate new detection algorithms
+keeps it agile and responsive to evolving deepfake technologies.
+3. Incentivization and Participation The token-based incentive model encourages continuous participation and
+contribution from a broad community, fostering a collaborative environment for deepfake detection.
+4. Privacy and Security The use of cryptographic hashes and secure data storage mechanisms protects the
+privacy and integrity of the content being analyzed.
+6.2
+
+Limitations and Future Work
+
+This system offers a promising solution, however, it has certain restrictions that point to areas for further research.
+• Scalability Concerns As the volume of content and the number of participating nodes increase, scalability
+could become a challenge. Future work will involve optimizing the network architecture and improving the
+efficiency of algorithms to handle larger scales.
+• Real-Time Processing The current framework may not support real-time analysis of media content, which is
+crucial for timely detection. Future enhancements will focus on reducing latency and improving processing
+speeds.
+• Diverse Data Representation Ensure that the system effectively handles diverse forms of media across
+different cultures and languages is an ongoing challenge that requires continuous enhancement of the underlying
+models and algorithms.
+7
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+• Re-recording Attack Vector Re-recording attacks, where a deepfake is recorded from a screen, can introduce
+anomalies that standard detection algorithms might miss. Implementing specialized algorithms that detect
+these specific anomalies and integrate them into the system is crucial to address this challenge.
+• Handling Legitimate Content Alterations Distinguishing between maliciously altered content and legitimately modified media (e.g., cropping, resizing) is complex. Developing more sophisticated models capable
+of understanding the context and intent behind the alterations is key. This involves training algorithms on
+diverse datasets that include examples of both legitimate modifications and malicious tampering.
+6.3
+
+Ethical Considerations
+
+The ethical implications of deepfake detection technology are of utmost importance. It is essential to consider the
+potential implications of technology on privacy, accuracy, and fairness when developing and deploying fake detection
+systems. Additionally, it is important to consider the potential for misuse of the technology and the potential for
+unintended consequences of its use.
+• Bias and Fairness It is essential to guarantee that algorithms do not display any prejudice against certain
+groups or individuals, which requires frequent reviews for impartiality and prejudice.
+• Misuse of Technology The technology that is designed to detect deepfakes carries the potential for it to be
+utilized to generate more advanced deepfakes. To reduce this danger, it is essential to put in place stringent
+access regulations and ethical standards.
+• Impact on Privacy and Consent The system must be able to tackle the intricate matters related to privacy and
+permission, especially when examining material that includes people who have not given their approval for
+such examination.
+
+7
+
+Conclusion
+
+This paper proposed a decentralized system based on blockchain technology to tackle the growing issue of deepfake
+detection. By combining sophisticated deep learning algorithms with the immutable and transparent features of
+blockchain, a novel approach to authenticating digital media was presented. Smart contracts for dynamic algorithm
+management and token-based rewards further improved the system’s efficiency and flexibility.
+The decentralized architecture of the system democratizes the process of verifying digital content and introduces a novel
+approach to combat deepfake technology. The system’s adaptability, which allows for the integration and updating of
+detection algorithms, ensures it is able to keep up with the ever-changing landscape of digital manipulation. Additionally,
+the token-based incentive model encourages collaboration and participation, stimulating ongoing improvement and
+community involvement.
+Despite its advantages, the system is confronted with certain restrictions and difficulties, such as scalability problems,
+the requirement for instantaneous processing capacities, and the management of varied data. Moreover, the system
+must traverse the intricate ethical terrain that encompasses deepfake detection, including worries about prejudice,
+confidentiality, and the potential misuse of technology. Addressing these restrictions and ethical considerations will be
+essential for the successful implementation and functioning of the system.
+Future research will concentrate on refining the system’s design to increase scalability and effectiveness, creating
+algorithms that can do real-time analysis, and making sure the system can adjust to a variety of media types and
+situations. It will also be essential to have ethical rules and regular reviews for prejudice and equity to guarantee that
+the technology is used properly.
+To sum up, the blockchain-based system for deepfake detection proposed in this paper is a major step forward in
+preserving the reliability of digital media. As deepfakes remain a danger to the trustworthiness of information, systems
+such as this one are essential for protecting the genuineness of digital material. The collaborative and adjustable nature
+of this system establishes a new benchmark for deepfake detection, offering a more robust digital media environment.
+
+References
+Md Shohel Rana, Mohammad Nur Nobi, Beddhu Murali, and Andrew H. Sung. Deepfake detection: A systematic
+literature review. IEEE Access, 10:25494–25513, 2022. doi:10.1109/ACCESS.2022.3154404.
+Momina Masood, Marriam Nawaz, Khalid Mahmood Malik, Ali Javed, and Aun Irtaza. Deepfakes generation and
+detection: State-of-the-art, open challenges, countermeasures, and way forward, 2021.
+8
+
+Decentralized Deepfake Detection Blockchain Network using Dynamic Algorithm management
+
+Andreas Rössler, Davide Cozzolino, Luisa Verdoliva, Christian Riess, Justus Thies, and Matthias Nießner. Faceforensics++: Learning to detect manipulated facial images, 2019.
+Huaqun Guo and Xingjie Yu. A survey on blockchain technology and its security. Blockchain: Research and
+Applications, 3(2):100067, 2022. ISSN 2096-7209. doi:https://doi.org/10.1016/j.bcra.2022.100067. URL https:
+//www.sciencedirect.com/science/article/pii/S2096720922000070.
+Xian Rong Zheng and Yang Lu. Blockchain technology – recent research and future trend. Enterprise Information Systems, 16(12):1939895, 2022. doi:10.1080/17517575.2021.1939895. URL https://doi.org/10.1080/
+17517575.2021.1939895.
+Daniel Levis, Francesco Fontana, and Elisa Ughetto. A look into the future of blockchain technology. PLOS ONE, 16(11):
+1–20, 11 2021. doi:10.1371/journal.pone.0258995. URL https://doi.org/10.1371/journal.pone.0258995.
+Tianyi Wang, Xin Liao, Kam Pui Chow, Xiaodong Lin, and Yinglong Wang. Deepfake detection: A comprehensive
+study from the reliability perspective, 2023.
+Thanh Thi Nguyen, Quoc Viet Hung Nguyen, Dung Tien Nguyen, Duc Thanh Nguyen, Thien Huynh-The, Saeid
+Nahavandi, Thanh Tam Nguyen, Quoc-Viet Pham, and Cuong M. Nguyen. Deep learning for deepfakes creation
+and detection: A survey. Computer Vision and Image Understanding, 223:103525, October 2022. ISSN 1077-3142.
+doi:10.1016/j.cviu.2022.103525. URL http://dx.doi.org/10.1016/j.cviu.2022.103525.
+Satoshi Nakamoto. Bitcoin: A peer-to-peer electronic cash system. May 2009. URL http://www.bitcoin.org/
+bitcoin.pdf.
+Yue Wu, Junxiang Li, Jiru Zhou, Shichang Luo, and Liwei Song. Evolution process and supply chain adaptation of
+smart contracts in blockchain. Journal of Mathematics, 2022, 01 2022. doi:10.1155/2022/2839566.
+Leandro A. Passos, Danilo Jodas, Kelton A. P. da Costa, Luis A. Souza Júnior, Douglas Rodrigues, Javier Del Ser,
+David Camacho, and João Paulo Papa. A review of deep learning-based approaches for deepfake content detection,
+2023.
+Ruonan Wang, Min Luo, Yihong Wen, Lianhai Wang, Kim-Kwang Raymond Choo, and De biao He. The applications
+of blockchain in artificial intelligence. Secur. Commun. Networks, 2021:6126247:1–6126247:16, 2021. URL
+https://api.semanticscholar.org/CorpusID:238213460.
+Dr Sonali Vyas, Dr. Mohammad Shabaz, Prajjjawal Pandit, Rama Parvathy, and Ofori Isaac. Integration of artificial
+intelligence and blockchain technology in healthcare and agriculture. Journal of Food Quality, 2022:1–11, 05 2022.
+doi:10.1155/2022/4228448.
+Ruben Tolosana, Ruben Vera-Rodriguez, Julian Fierrez, Aythami Morales, and Javier Ortega-Garcia. Deepfakes and
+beyond: A survey of face manipulation and fake detection, 2020.
+Darius Afchar, Vincent Nozick, Junichi Yamagishi, and Isao Echizen. Mesonet: a compact facial video forgery detection
+network. In 2018 IEEE International Workshop on Information Forensics and Security (WIFS), pages 1–7. IEEE,
+2018.
+Yuezun Li, Siwei Zhang, and Siwei Lyu. Multi-attentional deepfake detection. arXiv preprint arXiv:2101.04906, 2021.
+Jiqiang Deng, Zixing Zhang, Zhiyong Zhang, and Björn Schuller. Exploiting time-frequency patterns with lstm-rnns
+for low-bitrate audio restoration. IEEE/ACM Transactions on Audio, Speech, and Language Processing, 27(11):
+1696–1708, 2019.
+Alec Radford, Jeff Wu, Rewon Child, David Luan, Dario Amodei, and Ilya Sutskever. Robust speech recognition via
+large-scale weak supervision. arXiv preprint arXiv:2101.00374, 2021.
+Emrah Sariboz, Kartick Kolachala, Gaurav Panwar, Roopa Vishwanathan, and Satyajayant Misra. Off-chain execution
+and verification of computationally intensive smart contracts, 2021.
+Youngok Kang, Nahye Cho, Jiyoung Yoon, Soyeon Park, and Jiyeon Kim. Transfer learning of a deep learning model
+for exploring tourists’ urban image using geotagged photos. ISPRS International Journal of Geo-Information, 10(3),
+2021. ISSN 2220-9964. doi:10.3390/ijgi10030137. URL https://www.mdpi.com/2220-9964/10/3/137.
+S. Castillo Camacho and Y. Wang. A comprehensive review of deep-learning-based methods for image forensics.
+Journal of Image Forensics, 2021.
+
+9
+
+
