@@ -1,0 +1,47 @@
+[package]
+name = "dfpn-indexer"
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+description = "Tantivy-based indexer for DFPN protocol events"
+
+[[bin]]
+name = "dfpn-indexer"
+path = "src/main.rs"
+
+[dependencies]
+# Solana
+solana-sdk = "1.18"
+solana-client = "1.18"
+solana-transaction-status = "1.18"
+
+# Full-text search
+tantivy = "0.22"
+
+# Web framework
+axum = { version = "0.7", features = ["macros"] }
+tower-http = { version = "0.5", features = ["cors", "trace"] }
+
+# Async runtime
+tokio = { version = "1.0", features = ["full"] }
+
+# Serialization
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+
+# Logging
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+
+# Error handling
+anyhow = "1.0"
+thiserror = "1.0"
+
+# CLI
+clap = { version = "4.0", features = ["derive"] }
+
+# Utilities
+borsh = "0.10"
+base64 = "0.21"
+chrono = { version = "0.4", features = ["serde"] }
+hex = "0.4"

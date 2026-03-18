@@ -1,0 +1,46 @@
+version: '3.8'
+
+services:
+  video-ftcn:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: dfpn-video-detector
+    ports:
+      - "8001:8000"
+    volumes:
+      # Mount weights directory (download weights here)
+      - ./weights:/app/weights:ro
+      # Mount temp directory for uploaded files
+      - /tmp/dfpn-video:/tmp
+    environment:
+      - CUDA_VISIBLE_DEVICES=0
+      - TORCH_HOME=/app/.torch
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # CPU-only version (uncomment to use)
+  # video-ftcn-cpu:
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   container_name: dfpn-video-detector-cpu
+  #   ports:
+  #     - "8002:8000"
+  #   volumes:
+  #     - ./weights:/app/weights:ro
+  #   environment:
+  #     - CUDA_VISIBLE_DEVICES=""
+  #   restart: unless-stopped

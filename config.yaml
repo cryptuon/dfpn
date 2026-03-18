@@ -1,0 +1,123 @@
+# DFPN Worker Configuration - Full Detection Node
+#
+# This configuration sets up a worker node with detection capabilities
+# for all supported modalities: face manipulation, AI-generated images,
+# video authenticity, and voice cloning.
+#
+# Usage:
+#   dfpn-worker --config config.yaml
+
+# Network configuration
+network: devnet
+rpc_url: https://api.devnet.solana.com
+indexer_url: https://indexer.devnet.dfpn.network
+
+# Wallet configuration
+# Path to Solana keypair file
+wallet_path: ~/.config/solana/id.json
+
+# Worker settings
+worker:
+  # Modalities this worker can process
+  # Must match the models configured below
+  modalities:
+    - image_authenticity
+    - video_authenticity
+    - face_manipulation
+    - voice_cloning
+    - generated_content
+
+  # Minimum fee (in lamports) to accept a task
+  # 1_000_000 lamports = 0.001 SOL
+  min_fee: 1000000
+
+  # Maximum concurrent tasks
+  # Adjust based on GPU memory and processing capacity
+  max_concurrent: 4
+
+  # Task timeout in seconds
+  # Video processing may need longer timeouts
+  task_timeout: 300
+
+  # How often to poll for new tasks (milliseconds)
+  poll_interval_ms: 5000
+
+# Model configurations
+# Each model handles specific detection modalities
+models:
+  # Face manipulation detection (Python subprocess)
+  # Uses SBI/EfficientNet-B4 architecture
+  - id: "face-forensics-sbi"
+    path: ./models/face-forensics
+    modalities:
+      - face_manipulation
+    gpu_required: true
+    runtime: external
+    on_chain_id: null  # Set after registering model on-chain
+
+  # AI-generated image detection (Python subprocess)
+  # Uses CLIP-based UniversalFakeDetect
+  - id: "universal-fake-detect"
+    path: ./models/universal-fake-detect
+    modalities:
+      - image_authenticity
+      - generated_content
+    gpu_required: true
+    runtime: external
+    on_chain_id: null
+
+  # Video authenticity detection (HTTP microservice)
+  # Runs as Docker container for isolation
+  - id: "video-ftcn"
+    path: http://localhost:8001/analyze
+    modalities:
+      - video_authenticity
+    gpu_required: true
+    runtime: http
+    on_chain_id: null
+
+  # Voice cloning / audio spoofing detection (Python subprocess)
+  # Uses wav2vec 2.0 / XLSR features
+  - id: "ssl-antispoofing"
+    path: ./models/ssl-antispoofing
+    modalities:
+      - voice_cloning
+    gpu_required: true
+    runtime: external
+    on_chain_id: null
+
+# Inference settings
+inference:
+  # Device for PyTorch models
+  # Options: "cuda" (GPU) or "cpu"
+  device: cuda
+
+  # Batch size for inference
+  # Keep at 1 for single-item processing
+  batch_size: 1
+
+  # Precision mode
+  # Options: "fp32" (full), "fp16" (half), "int8" (quantized)
+  precision: fp16
+
+# Storage settings for temporary files
+storage:
+  # Directory for downloaded media files
+  temp_dir: /tmp/dfpn
+
+  # Maximum file size to process (MB)
+  max_file_size_mb: 500
+
+  # Cleanup files older than this (seconds)
+  cleanup_after_seconds: 3600
+
+# Monitoring and health checks
+monitoring:
+  # Prometheus metrics endpoint
+  metrics_port: 9090
+
+  # Health check endpoint
+  health_port: 8080
+
+  # Enable detailed logging
+  log_level: info

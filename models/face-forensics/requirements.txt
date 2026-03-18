@@ -1,0 +1,17 @@
+# DFPN Face Manipulation Detector Dependencies
+# Based on SBI (Self-Blended Images) approach
+
+# Core ML
+torch>=2.0.0
+torchvision>=0.15.0
+
+# EfficientNet backbone
+efficientnet-pytorch>=0.7.1
+
+# Face detection (MTCNN)
+facenet-pytorch>=2.5.3
+
+# Image processing
+opencv-python>=4.8.0
+pillow>=10.0.0
+numpy>=1.24.0

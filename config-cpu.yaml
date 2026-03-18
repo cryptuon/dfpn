@@ -1,0 +1,75 @@
+# DFPN Worker Configuration - CPU-Only Node
+#
+# Use this configuration for nodes without GPU.
+# Processing will be slower but all models are supported.
+#
+# Usage:
+#   dfpn-worker --config config-cpu.yaml
+
+# Network configuration
+network: devnet
+rpc_url: https://api.devnet.solana.com
+indexer_url: https://indexer.devnet.dfpn.network
+
+# Wallet configuration
+wallet_path: ~/.config/solana/id.json
+
+# Worker settings (reduced concurrency for CPU)
+worker:
+  modalities:
+    - image_authenticity
+    - face_manipulation
+    - voice_cloning
+    - generated_content
+    # Note: Video processing on CPU is very slow
+    # Consider disabling video_authenticity for CPU nodes
+
+  min_fee: 1000000
+  max_concurrent: 2  # Reduced for CPU
+  task_timeout: 600  # Longer timeout for CPU
+  poll_interval_ms: 10000
+
+# Model configurations (CPU versions)
+models:
+  - id: "face-forensics-sbi"
+    path: ./models/face-forensics
+    modalities:
+      - face_manipulation
+    gpu_required: false
+    runtime: external
+    on_chain_id: null
+
+  - id: "universal-fake-detect"
+    path: ./models/universal-fake-detect
+    modalities:
+      - image_authenticity
+      - generated_content
+    gpu_required: false
+    runtime: external
+    on_chain_id: null
+
+  - id: "ssl-antispoofing"
+    path: ./models/ssl-antispoofing
+    modalities:
+      - voice_cloning
+    gpu_required: false
+    runtime: external
+    on_chain_id: null
+
+# CPU inference settings
+inference:
+  device: cpu
+  batch_size: 1
+  precision: fp32  # fp16 not beneficial on CPU
+
+# Storage settings
+storage:
+  temp_dir: /tmp/dfpn
+  max_file_size_mb: 200  # Reduced for CPU processing
+  cleanup_after_seconds: 3600
+
+# Monitoring
+monitoring:
+  metrics_port: 9090
+  health_port: 8080
+  log_level: info

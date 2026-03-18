@@ -1,16 +1,37 @@
 # Architecture
 
-This document describes a practical architecture for a decentralized deepfake detection network that runs on Solana without building a new chain.
+This document describes a practical architecture for a decentralized deepfake detection coordination layer that runs on Solana.
+
+## Design Philosophy
+
+DFPN is a **tracking and coordination system**, not a model provider or inference platform. The network:
+
+- **Coordinates** independent node operators who bring their own detection models and GPU infrastructure
+- **Tracks** request lifecycle, result submissions, and worker reputation
+- **Incentivizes** honest behavior through staking, rewards, and slashing
+- **Aggregates** results from multiple independent workers into consensus verdicts
+
+Node operators choose their own algorithms, manage their own hardware, and compete on detection quality. DFPN provides the economic rails that make this coordination trustworthy.
 
 ## System Components
 
 - **Clients**: Submit media, check authenticity, and retrieve audit trails.
 - **Content Providers**: Register originals and proofs of authorship.
-- **Model Developers**: Publish detection models and updates.
-- **Workers**: Execute inference off-chain and post signed results.
-- **Solana Programs**: Registries, jobs, scoring, staking, and rewards.
+- **Model Developers**: Publish detection model metadata; models run on operator infrastructure.
+- **Node Operators**: Run their own models and GPUs, execute inference, and post signed results.
+- **Solana Programs**: Coordination, tracking, scoring, staking, and rewards.
 - **Storage**: Off-chain media and datasets (IPFS/Arweave/S3), with hashes on-chain.
 - **Indexers**: Read Solana state and provide APIs for fast search.
+
+### What DFPN Controls vs. What Operators Control
+
+| DFPN (On-chain) | Node Operators (Off-chain) |
+|-----------------|---------------------------|
+| Request routing | Model selection |
+| Result tracking | Inference execution |
+| Reputation scores | GPU/CPU infrastructure |
+| Reward distribution | Algorithm updates |
+| Stake management | Operational decisions |
 
 ## Core On-chain Programs
 
@@ -36,17 +57,81 @@ This document describes a practical architecture for a decentralized deepfake de
 
 ## Off-chain Services
 
-- **Inference Workers**
-  - Pull tasks, run models, and submit results.
-  - Sign outputs with registered worker keys.
+- **Node Operator Infrastructure** (operator-managed)
+  - Operators run their own detection models on their own hardware.
+  - Pull tasks from DFPN, run inference locally, submit signed results.
+  - Choose which models to run, how to scale, and which requests to serve.
 
-- **Evaluation Harness**
-  - Benchmarks models on held-out datasets.
-  - Produces score reports for on-chain updates.
+- **Evaluation Harness** (protocol-managed)
+  - Benchmarks registered models on held-out datasets.
+  - Produces score reports for on-chain reputation updates.
+  - Does not run production inference (only periodic evaluation).
 
-- **Indexer + API**
+- **Indexer + API** (protocol-managed)
   - Builds fast queries for clients and dashboards.
   - Mirrors on-chain data without being a source of truth.
+
+## Pre-configured Detection Models
+
+DFPN provides ready-to-use detection models covering all supported modalities:
+
+| Model | Modality | Architecture | Backend |
+|-------|----------|--------------|---------|
+| `face-forensics` | Face Manipulation | SBI/EfficientNet-B4 | Python subprocess |
+| `universal-fake-detect` | AI-Generated Images | CLIP-ViT-L/14 | Python subprocess |
+| `video-ftcn` | Video Authenticity | Xception + Temporal | Docker HTTP service |
+| `ssl-antispoofing` | Voice Cloning | wav2vec 2.0/XLSR | Python subprocess |
+
+### Model Integration Architecture
+
+```
+┌─────────────────────────────────────────────────────────────┐
+│                    DFPN Worker Daemon                        │
+│  ┌─────────────────────────────────────────────────────────┐│
+│  │                   Task Manager                           ││
+│  │  - Polls indexer for tasks                              ││
+│  │  - Selects model by modality                            ││
+│  │  - Manages commit-reveal protocol                       ││
+│  └───────────────────┬─────────────────────────────────────┘│
+│                      │                                       │
+│  ┌───────────────────┴───────────────────────────────────┐  │
+│  │               Detector Interface                       │  │
+│  │  async fn analyze(&self, path: &Path) -> AnalysisResult│  │
+│  └───┬─────────────┬─────────────┬─────────────┬─────────┘  │
+│      │             │             │             │             │
+│  ┌───┴───┐    ┌────┴───┐   ┌────┴───┐   ┌────┴───┐        │
+│  │External│    │  HTTP  │   │ ONNX  │   │ Candle │        │
+│  │Detector│    │Detector│   │Detector│   │Detector│        │
+│  │(Python)│    │ (API)  │   │(native)│   │(native)│        │
+│  └───┬───┘    └────┬───┘   └────────┘   └────────┘        │
+│      │             │        (disabled)   (disabled)         │
+└──────┼─────────────┼────────────────────────────────────────┘
+       │             │
+       ▼             ▼
+┌──────────┐  ┌─────────────┐
+│ Python   │  │   Docker    │
+│inference │  │  Container  │
+│  .py     │  │  (video)    │
+└──────────┘  └─────────────┘
+```
+
+### Model Output Format
+
+All models output standardized JSON:
+
+```json
+{
+  "verdict": "authentic" | "manipulated" | "inconclusive",
+  "confidence": 0-100,
+  "detections": [{
+    "detection_type": "face_manipulation" | "ai_generated_image" | ...,
+    "confidence": 0-100,
+    "region": {"x": 0, "y": 0, "width": 100, "height": 100}
+  }]
+}
+```
+
+See [Detection Models Guide](detection-models.md) for detailed documentation.
 
 ## Data Flow
 
@@ -60,9 +145,11 @@ This document describes a practical architecture for a decentralized deepfake de
 ## Security Model
 
 - **No on-chain inference**; trust comes from economic incentives and redundancy.
-- **Commit-reveal** can reduce result copying and collusion.
+- **Operator independence**; DFPN doesn't control models, so no single point of failure.
+- **Commit-reveal** prevents result copying and front-running between workers.
 - **Staking + slashing** enforces honest behavior for workers and model developers.
 - **Epoch scoring** limits on-chain compute and keeps fees predictable.
+- **Multi-worker consensus** aggregates independent analyses for reliability.
 
 ## Scalability Notes
 

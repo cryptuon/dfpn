@@ -1,22 +1,45 @@
 # Operational Model
 
-This document describes how models and workers join the network, how quality is measured, and how incentives are paid.
+This document describes how models and node operators join the network, how quality is measured, and how incentives are paid.
+
+## Key Principle: Separation of Concerns
+
+DFPN is a coordination layer. The network tracks and incentivizes, but does not control:
+
+| DFPN Responsibility | Operator Responsibility |
+|---------------------|------------------------|
+| Register model metadata | Develop and train models |
+| Track model performance | Host and serve models |
+| Distribute rewards | Run inference infrastructure |
+| Apply slashing | Choose hardware and scaling |
+| Aggregate results | Decide which requests to serve |
+
+This separation means DFPN has no single point of failure for detection capabilities. If one model underperforms, operators can switch to alternatives without protocol changes.
 
 ## Model Lifecycle
 
-1. **Submission**: Developer registers a model with metadata and a stake.
-2. **Benchmarking**: Model is evaluated on a held-out dataset by the evaluation harness.
-3. **Activation**: Models meeting minimum thresholds become active for requests.
-4. **Versioning**: New versions can be submitted and evaluated independently.
-5. **Retirement**: Models with sustained poor performance are retired.
+Models are developed and hosted by independent parties. DFPN only tracks metadata and performance.
 
-## Worker Lifecycle
+1. **Submission**: Developer registers model metadata (name, version, modalities, download URI) and stakes DFPN.
+2. **Distribution**: Model files are hosted by the developer; operators download and run them independently.
+3. **Benchmarking**: Protocol evaluation harness tests the model on held-out datasets.
+4. **Activation**: Models meeting minimum thresholds become active and visible to operators.
+5. **Adoption**: Operators independently choose which models to run on their infrastructure.
+6. **Versioning**: New versions are submitted and evaluated without disrupting existing deployments.
+7. **Retirement**: Models with sustained poor performance are retired from the registry.
 
-1. **Registration**: Workers stake tokens and declare supported modalities.
-2. **Task Assignment**: Workers pull jobs from the analysis marketplace.
-3. **Submission**: Results are committed then revealed to prevent copying.
-4. **Scoring**: Performance updates reputation each epoch.
-5. **Slashing**: Fraud, missed deadlines, or invalid results reduce stake.
+## Node Operator Lifecycle
+
+Node operators run their own infrastructure and choose which models to deploy.
+
+1. **Setup**: Operator provisions GPU/CPU infrastructure and installs chosen detection models.
+2. **Registration**: Operator stakes DFPN tokens and declares supported modalities and models.
+3. **Task Selection**: Operator's node pulls jobs matching their capabilities from the marketplace.
+4. **Inference**: Operator runs models locally on their infrastructure (DFPN never sees the inference).
+5. **Submission**: Results are committed then revealed via the commit-reveal protocol.
+6. **Scoring**: Performance updates reputation each epoch based on accuracy and reliability.
+7. **Rewards**: Operators earn fees proportional to their performance and stake.
+8. **Slashing**: Fraud, missed deadlines, or invalid results reduce stake.
 
 ## Scoring Policy (Baseline)
 

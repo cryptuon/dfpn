@@ -1,0 +1,17 @@
+# DFPN AI-Generated Image Detector Dependencies
+# Based on UniversalFakeDetect (CLIP-based)
+
+# Core ML
+torch>=2.0.0
+torchvision>=0.15.0
+
+# CLIP model (from OpenAI)
+# Install with: pip install git+https://github.com/openai/CLIP.git
+clip @ git+https://github.com/openai/CLIP.git
+
+# Image processing
+pillow>=10.0.0
+numpy>=1.24.0
+
+# For downloading weights
+gdown>=4.7.0

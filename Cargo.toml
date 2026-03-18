@@ -1,0 +1,44 @@
+[workspace]
+resolver = "2"
+members = [
+    "programs/shared",
+    "programs/content-registry",
+    "programs/analysis-marketplace",
+    "programs/model-registry",
+    "programs/worker-registry",
+    "programs/rewards",
+    "worker/dfpn-worker",
+    "indexer",
+]
+
+[workspace.package]
+version = "0.1.0"
+edition = "2021"
+license = "MIT"
+repository = "https://github.com/dfpn/dfpn"
+
+[workspace.dependencies]
+anchor-lang = "0.30.1"
+anchor-spl = "0.30.1"
+solana-program = "1.18"
+spl-token = "4.0"
+spl-associated-token-account = "3.0"
+borsh = "0.10"
+thiserror = "1.0"
+sha2 = "0.10"
+
+# Worker client dependencies
+tokio = { version = "1.0", features = ["full"] }
+reqwest = { version = "0.11", features = ["json", "multipart"] }
+serde = { version = "1.0", features = ["derive"] }
+serde_json = "1.0"
+clap = { version = "4.0", features = ["derive"] }
+tracing = "0.1"
+tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+anyhow = "1.0"
+base64 = "0.21"
+
+[profile.release]
+overflow-checks = true
+lto = "fat"
+codegen-units = 1

@@ -1,0 +1,74 @@
+[package]
+name = "dfpn-worker"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[[bin]]
+name = "dfpn-worker"
+path = "src/main.rs"
+
+[dependencies]
+# Solana
+solana-sdk = "1.18"
+solana-client = "1.18"
+anchor-client = "0.30.1"
+
+# Async runtime
+tokio.workspace = true
+
+# HTTP client
+reqwest.workspace = true
+
+# Serialization
+serde.workspace = true
+serde_json.workspace = true
+borsh.workspace = true
+
+# CLI
+clap.workspace = true
+
+# Logging
+tracing.workspace = true
+tracing-subscriber.workspace = true
+
+# Error handling
+anyhow.workspace = true
+thiserror.workspace = true
+
+# Crypto
+sha2.workspace = true
+base64.workspace = true
+
+# Shared types
+dfpn-shared = { path = "../../programs/shared", features = ["cpi"] }
+
+# Additional
+getrandom = "0.2"
+async-trait = "0.1"
+shellexpand = "3.0"
+serde_yaml = "0.9"
+
+# Note: ONNX Runtime and Candle dependencies have version conflicts with Solana SDK.
+# The ONNX and Candle detector implementations are included but the actual dependencies
+# are commented out until the conflict is resolved upstream.
+# To use native ML inference, build with a separate feature crate or use external detectors.
+
+# # ONNX Runtime (optional) - disabled due to Solana dep conflict
+# ort = { version = "2.0.0-rc.11", optional = true }
+# ndarray = { version = "0.16", optional = true }
+
+# # Candle (optional, for pure Rust ML) - disabled due to Solana dep conflict
+# candle-core = { version = "0.9", optional = true }
+# candle-nn = { version = "0.9", optional = true }
+# candle-transformers = { version = "0.9", optional = true }
+
+# Image processing (can be used by any detector)
+image = { version = "0.24", optional = true }
+ndarray = { version = "0.15", optional = true }
+
+[features]
+default = []
+image-processing = ["image", "ndarray"]
+# onnx = ["ort", "ndarray", "image"]
+# candle = ["candle-core", "candle-nn", "candle-transformers", "image"]

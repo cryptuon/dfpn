@@ -1,0 +1,23 @@
+[package]
+name = "analysis-marketplace"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+
+[lib]
+crate-type = ["cdylib", "lib"]
+name = "analysis_marketplace"
+
+[features]
+no-entrypoint = []
+no-idl = []
+no-log-ix-name = []
+cpi = ["no-entrypoint"]
+default = []
+
+[dependencies]
+anchor-lang.workspace = true
+anchor-spl.workspace = true
+dfpn-shared = { path = "../shared", features = ["cpi"] }
+rewards = { path = "../rewards", features = ["cpi"] }
+sha2.workspace = true

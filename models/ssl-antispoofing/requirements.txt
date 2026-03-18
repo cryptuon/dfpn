@@ -1,0 +1,21 @@
+# DFPN Voice Cloning / Audio Spoofing Detector Dependencies
+# Based on SSL Anti-spoofing (wav2vec 2.0 / XLSR)
+
+# Core ML
+torch>=1.8.1
+torchaudio>=0.8.1
+
+# SSL model (wav2vec 2.0)
+# Note: fairseq can be tricky to install. If issues occur, the detector
+# will fall back to a simpler spectrogram-based model.
+fairseq>=0.12.0
+
+# Audio processing
+numpy>=1.20.0
+scipy>=1.7.0
+
+# Optional: alternative audio loading
+librosa>=0.9.0
+
+# Optional: for better audio format support
+soundfile>=0.11.0
