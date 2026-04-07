@@ -1,0 +1,11 @@
+target/
+node_modules/
+dashboard/node_modules/
+dashboard/dist/
+.git/
+docs/
+models/
+scripts/
+tests/
+*.md
+.env*
