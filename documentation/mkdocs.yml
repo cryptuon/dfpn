@@ -1,0 +1,49 @@
+site_name: DFPN Documentation
+site_description: Deepfake Proof Network - Decentralized deepfake detection on Solana
+site_url: https://dfpn.cryptuon.com/docs
+
+theme:
+  name: material
+  palette:
+    scheme: slate
+    primary: deep purple
+    accent: green
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - search.highlight
+    - content.code.copy
+
+nav:
+  - Home: index.md
+  - Getting Started:
+    - Overview: getting-started/index.md
+    - For Workers: getting-started/workers.md
+    - For Clients: getting-started/clients.md
+    - For Model Developers: getting-started/model-developers.md
+  - Concepts:
+    - Architecture: concepts/architecture.md
+    - How It Works: concepts/how-it-works.md
+    - Tokenomics: concepts/tokenomics.md
+    - Detection Models: concepts/detection-models.md
+  - Reference:
+    - API Specification: reference/api.md
+    - Configuration: reference/configuration.md
+    - Program IDs: reference/program-ids.md
+  - Community:
+    - Roadmap: community/roadmap.md
+    - Contributing: community/contributing.md
+    - FAQ: community/faq.md
+
+markdown_extensions:
+  - tables
+  - admonition
+  - pymdownx.details
+  - pymdownx.superfences
+  - pymdownx.highlight:
+      anchor_linenums: true
+  - pymdownx.inlinehilite
+  - pymdownx.snippets
+  - attr_list
+  - md_in_html

@@ -36,3 +36,6 @@ npm-debug.log*
 
 # Test artifacts
 .test-ledger/
+
+# MkDocs build
+documentation/site/

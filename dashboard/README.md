@@ -1,5 +1,28 @@
-# Vue 3 + TypeScript + Vite
+# DFPN Dashboard
 
-This template should help get you started developing with Vue 3 and TypeScript in Vite. The template uses Vue 3 `<script setup>` SFCs, check out the [script setup docs](https://v3.vuejs.org/api/sfc-script-setup.html#sfc-script-setup) to learn more.
+Vue.js web dashboard for the Deepfake Proof Network. Shows network statistics, worker/model/request data, and participant guides.
 
-Learn more about the recommended Project Setup and IDE Support in the [Vue Docs TypeScript Guide](https://vuejs.org/guide/typescript/overview.html#project-setup).
+## Development
+
+```bash
+npm install
+npm run dev
+```
+
+## Build
+
+```bash
+npm run build
+```
+
+## Stack
+
+- Vue 3.5 + TypeScript + Composition API
+- Tailwind CSS 4 (dark theme)
+- Vue Router 4 + Pinia
+- Chart.js + vue-chartjs
+- Solana wallet integration (Phantom)
+
+## Docker Deployment
+
+The dashboard is bundled with the indexer in a single Docker image. See `Dockerfile` and `captain-definition` for CapRover deployment.

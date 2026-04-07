@@ -1,66 +1,104 @@
-# DFPN: Deepfake Proof Network on Solana
+# DFPN: Deepfake Proof Network
 
-DFPN is a decentralized coordination layer for deepfake detection built on Solana. The network connects clients who need media verified with independent node operators who run their own detection algorithms and inference infrastructure.
+A decentralized coordination layer for deepfake detection built on Solana.
 
-**DFPN provides:** Request routing, result aggregation, reputation tracking, and economic incentives.
+DFPN connects clients who need media verified with independent node operators who run their own detection algorithms and GPU infrastructure. The network uses economic incentives (staking, rewards, slashing) to ensure honest, accurate results.
 
-**Node operators provide:** Their own detection models, GPU/CPU infrastructure, and operational expertise.
+## Architecture
 
-The result is a trust-minimized marketplace where independent detection capabilities are coordinated through on-chain incentives, without DFPN controlling or providing the actual detection models.
+```
+Client -> Submit Request -> Solana Programs -> Workers Analyze -> Consensus Result
+```
 
-This repo contains documentation only. It is intentionally independent of any prior paper and focuses on a practical Solana-first implementation.
+- **Clients** submit media for deepfake analysis
+- **Workers** run detection models on their own GPU/CPU hardware
+- **Model Developers** register detection algorithms
+- **Solana Programs** coordinate requests, aggregate results, manage reputation and rewards
 
-## Goals
+## Repository Structure
 
-- Build on Solana (no new chain) with minimal on-chain state and predictable fees.
-- Coordinate independent node operators who bring their own models and infrastructure.
-- Support multi-modal analysis (image, video, audio) via off-chain workers.
-- Track model performance and node reputation without controlling the models.
-- Reward performance and penalize dishonest or low-quality results.
-- Preserve privacy and avoid storing raw media on-chain.
+```
+programs/               # Solana smart contracts (Anchor)
+  shared/               # Shared types and constants
+  content-registry/     # Media hash and provenance storage
+  analysis-marketplace/ # Request creation and result tracking
+  model-registry/       # Model metadata and versioning
+  worker-registry/      # Worker staking and reputation
+  rewards/              # Reward distribution and treasury
+worker/                 # Node operator client (Rust)
+indexer/                # REST API indexer (Axum + Tantivy)
+sdk/                    # TypeScript SDK for integration
+models/                 # Pre-configured detection models
+dashboard/              # Vue.js web dashboard
+documentation/          # MkDocs user-facing documentation
+docs/                   # Technical design documents
+scripts/                # Deployment and setup scripts
+```
 
-## Non-goals
+## Quick Start
 
-- Providing or hosting detection models (operators bring their own).
-- Running inference infrastructure (operators manage their own GPUs).
-- On-chain ML inference.
-- Storing media content on-chain.
-- Replacing existing media provenance tools (we integrate with them).
+### Run the Dashboard
 
-## High-level Components
+```bash
+cd dashboard
+npm install
+npm run dev
+```
 
-- **Clients** submit media for analysis and consume results.
-- **Content providers** register originals and metadata for provenance checks.
-- **Model developers** publish detection model metadata (models run on operator infrastructure).
-- **Node operators** run their own models and GPUs, post signed results to DFPN.
-- **Solana programs** manage coordination, tracking, scoring, and rewards.
-- **Indexers/APIs** provide fast queries and UX without trusting them for final state.
+### Run a Worker Node
+
+```bash
+# Install and configure
+./scripts/setup-models.sh
+cp config.yaml.example config.yaml
+# Edit config.yaml with your wallet and preferences
+
+# Start
+cargo run --release -p dfpn-worker -- --config config.yaml
+```
+
+### Deploy to CapRover
+
+The repository includes a `captain-definition` and `Dockerfile` for one-click deployment to CapRover. The Docker image bundles the Vue.js dashboard with the indexer service.
+
+```bash
+# Build locally
+docker build -f dashboard/Dockerfile -t dfpn-dashboard .
+
+# Or push to CapRover
+# Configure captain-definition to point at your CapRover instance
+```
+
+## Detection Models
+
+| Model | Modality | Accuracy | Speed (GPU) |
+|-------|----------|----------|-------------|
+| face-forensics | Face Manipulation | 97.2% | 50ms |
+| universal-fake-detect | AI-Generated Images | 99.8% | 100ms |
+| video-ftcn | Video Authenticity | 96.4% | 2s |
+| ssl-antispoofing | Voice Cloning | 99.2% | 200ms |
+
+## Token Economics
+
+- **Total Supply**: 1,000,000,000 DFPN
+- **Worker Stake**: 5,000 DFPN minimum
+- **Fee Split**: 65% Workers / 20% Model Devs / 10% Treasury / 5% Insurance
+- **Scoring**: Accuracy (50%), Availability (25%), Latency (15%), Consistency (10%)
 
 ## Documentation
 
-### Core Design
-- `docs/architecture.md` - System overview and data flow.
-- `docs/solana-design.md` - Program/account design and on-chain considerations.
-- `docs/operational-model.md` - Model lifecycle, incentives, and governance.
-- `docs/commit-reveal-protocol.md` - Anti-copying mechanism for result submission.
+- **User Docs**: See `documentation/` (MkDocs) for comprehensive user-facing documentation
+- **Technical Docs**: See `docs/` for architecture, protocol, and API specifications
 
-### Integration
-- `docs/api-specification.md` - On-chain instructions and off-chain APIs.
-- `docs/node-operator-guide.md` - How to run a node with your own models/GPUs.
-- `docs/client-integration-guide.md` - How to submit requests and consume results.
+## Technology Stack
 
-### Planning
-- `docs/roadmap.md` - Realistic delivery plan for Solana.
-- `docs/milestone-plan.md` - Staffing assumptions and implementation milestones.
-- `docs/tokenomics.md` - Token design, fees, staking, and rewards.
-- `docs/threat-model.md` - Security assumptions, attacks, and mitigations.
+- **Blockchain**: Solana (Anchor 0.30.1)
+- **Worker**: Rust + Tokio
+- **Indexer**: Rust + Axum + Tantivy
+- **Dashboard**: Vue 3 + TypeScript + Tailwind CSS 4
+- **SDK**: TypeScript (@solana/web3.js)
+- **Models**: Python + PyTorch
 
-## Roadmap Snapshot
+## License
 
-- Phase 0: Research, threat model, datasets, and evaluation harness.
-- Phase 1: Devnet MVP with registry + job marketplace + simple worker.
-- Phase 2: Testnet pilot with staking, scoring, and model versioning.
-- Phase 3: Mainnet beta with governance and reward treasury.
-- Phase 4: Scale-out, UX, and ecosystem integrations.
-
-The milestone plan includes staffing assumptions and delivery checkpoints; happy to tailor it to your team and budget.
+MIT - see [LICENSE](LICENSE)
