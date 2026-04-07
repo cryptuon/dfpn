@@ -22,6 +22,16 @@ DFPN uses a native token to align incentives across all network participants. Th
 
 The total supply is allocated across six categories:
 
+```mermaid
+pie title Token Allocation
+    "Network Rewards (38%)" : 38
+    "Treasury (20%)" : 20
+    "Team & Advisors (18%)" : 18
+    "Ecosystem Growth (12%)" : 12
+    "Strategic Backers (7%)" : 7
+    "Liquidity (5%)" : 5
+```
+
 | Allocation | Percentage | Tokens | Details |
 |-----------|-----------|--------|---------|
 | **Network Rewards** | 38% | 380,000,000 | Workers and model developers, released over 8 years |
@@ -65,6 +75,14 @@ Clients pay a per-request fee in SOL when submitting media for analysis. Fees va
 ### Fee Split
 
 Every fee is split across four recipients:
+
+```mermaid
+flowchart LR
+    F[Request Fee] --> W["Workers<br/>65%"]
+    F --> M["Model Devs<br/>20%"]
+    F --> T["Treasury<br/>10%"]
+    F --> I["Insurance<br/>5%"]
+```
 
 | Recipient | Share | Purpose |
 |-----------|-------|---------|

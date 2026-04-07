@@ -6,37 +6,39 @@ DFPN is a coordination layer, not a detection engine. It connects clients, worke
 
 ## High-Level Overview
 
-```
-                          ┌──────────────────────────┐
-                          │     Solana Blockchain     │
-                          │                          │
-                          │  ┌────────────────────┐  │
-  Clients ──────────────▶ │  │  Analysis           │  │ ◀────── Workers
-  (submit requests,       │  │  Marketplace        │  │         (commit/reveal
-   pay fees,              │  ├────────────────────┤  │          results,
-   read results)          │  │  Content Registry   │  │          earn rewards)
-                          │  ├────────────────────┤  │
-                          │  │  Worker Registry    │  │
-  Model Developers ─────▶ │  ├────────────────────┤  │
-  (register models,       │  │  Model Registry     │  │
-   stake DFPN)            │  ├────────────────────┤  │
-                          │  │  Rewards + Treasury │  │
-                          │  └────────────────────┘  │
-                          └──────────────────────────┘
-                                      │
-                                      │ indexed by
-                                      ▼
-                              ┌───────────────┐
-                              │    Indexer     │
-                              │  (REST API)   │
-                              └───────────────┘
-                                      │
-                                      │ mirrors state
-                                      ▼
-                          ┌───────────────────────┐
-                          │   Off-Chain Storage   │
-                          │  (IPFS / Arweave / S3)│
-                          └───────────────────────┘
+```mermaid
+graph TB
+    subgraph Participants
+        CL[Clients<br/>Submit requests, pay fees]
+        MD[Model Developers<br/>Register models, stake DFPN]
+        WK[Workers<br/>Commit/reveal results, earn rewards]
+    end
+
+    subgraph Solana[Solana Blockchain]
+        AM[Analysis Marketplace]
+        CR[Content Registry]
+        WR[Worker Registry]
+        MR[Model Registry]
+        RW[Rewards + Treasury]
+    end
+
+    subgraph OffChain[Off-Chain Infrastructure]
+        IX[Indexer - REST API]
+        ST[Storage - IPFS / Arweave / S3]
+        DA[Dashboard]
+    end
+
+    CL -->|Submit Request| AM
+    CL -->|Register Content| CR
+    MD -->|Register Model| MR
+    WK -->|Stake & Register| WR
+    WK -->|Commit/Reveal| AM
+    WK -->|Fetch Media| ST
+    AM -->|Distribute| RW
+    IX -->|Index State| AM
+    IX -->|Index| WR
+    IX -->|Index| MR
+    DA -->|Query| IX
 ```
 
 ---
@@ -130,39 +132,24 @@ Clients choose where to host their media. Workers download from whatever URI is 
 
 Here is the full data flow for a single analysis request:
 
-```
-1. Client uploads media to off-chain storage
-         │
-         ▼
-2. Client submits request on-chain
-   (content hash, storage URI, fee, deadline, modalities)
-         │
-         ▼
-3. Workers detect new request via indexer or on-chain polling
-         │
-         ▼
-4. Workers download media from storage URI
-         │
-         ▼
-5. Workers run detection models locally (GPU inference)
-         │
-         ▼
-6. Workers submit commit (hash of result + salt)
-         │
-         ▼
-7. Commit window closes
-         │
-         ▼
-8. Workers submit reveal (actual result + salt)
-         │
-         ▼
-9. Consensus aggregation on-chain
-         │
-         ▼
-10. Result finalized, fees distributed, reputation updated
-         │
-         ▼
-11. Client reads result from on-chain or via indexer
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant ST as Storage
+    participant SOL as Solana
+    participant W as Workers
+
+    C->>ST: 1. Upload media
+    C->>SOL: 2. Submit request (hash, URI, fee, modalities)
+    W->>SOL: 3. Detect new request
+    W->>ST: 4. Download media
+    W->>W: 5. Run detection models (GPU)
+    W->>SOL: 6. Submit commit (hash of result + salt)
+    Note over SOL: 7. Commit window closes
+    W->>SOL: 8. Submit reveal (actual result + salt)
+    SOL->>SOL: 9. Consensus aggregation
+    SOL-->>W: 10. Distribute rewards
+    SOL-->>C: 11. Result available
 ```
 
 ---

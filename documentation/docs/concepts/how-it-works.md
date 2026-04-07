@@ -8,6 +8,29 @@ This page explains the core mechanisms that make DFPN function: the request life
 
 Every analysis request goes through nine steps from submission to reward distribution.
 
+```mermaid
+sequenceDiagram
+    participant C as Client
+    participant S as Solana
+    participant W1 as Worker 1
+    participant W2 as Worker 2
+
+    C->>S: 1. Submit request + fee
+    S-->>W1: 2. Task available
+    S-->>W2: 2. Task available
+    W1->>W1: 3-4. Download & Analyze
+    W2->>W2: 3-4. Download & Analyze
+    W1->>S: 5. Commit (hash)
+    W2->>S: 5. Commit (hash)
+    Note over S: Commit window closes
+    W1->>S: 6. Reveal result
+    W2->>S: 6. Reveal result
+    S->>S: 7. Aggregate consensus
+    S-->>C: 8. Finalized result
+    S-->>W1: 9. Reward
+    S-->>W2: 9. Reward
+```
+
 ### Step 1: Submit
 
 A client creates an analysis request on-chain. The request includes:
@@ -60,6 +83,17 @@ Fees are distributed to workers, model developers, treasury, and the insurance p
 Without commit-reveal, a dishonest worker could wait for other workers to submit results, copy the most common answer, and earn rewards without doing any real work. This is called free-riding, and it undermines the entire purpose of multi-worker consensus.
 
 The commit-reveal protocol prevents this by hiding all results until every worker has locked in their answer.
+
+```mermaid
+flowchart LR
+    A["Worker analyzes media"] --> B["Generate random salt"]
+    B --> C["Hash(result + salt + pubkey)"]
+    C --> D["Submit commitment on-chain"]
+    D --> E["Wait for commit window to close"]
+    E --> F["Reveal actual result + salt"]
+    F --> G["Protocol verifies hash matches"]
+    G --> H["Result accepted"]
+```
 
 ### How It Works
 
