@@ -24,11 +24,11 @@ impl Default for ProgramIds {
     fn default() -> Self {
         // Default program IDs (can be overridden in config)
         Self {
-            content_registry: Pubkey::from_str("DFPNcontent111111111111111111111111111111111").unwrap(),
-            analysis_marketplace: Pubkey::from_str("DFPNmarket1111111111111111111111111111111111").unwrap(),
-            model_registry: Pubkey::from_str("DFPNmodel11111111111111111111111111111111111").unwrap(),
-            worker_registry: Pubkey::from_str("DFPNworker1111111111111111111111111111111111").unwrap(),
-            rewards: Pubkey::from_str("DFPNrewards111111111111111111111111111111111").unwrap(),
+            content_registry: Pubkey::from_str("GokivDYuQXPZCWRkwMhdH2h91KpDQXBEmpgBgs55bnpH").unwrap(),
+            analysis_marketplace: Pubkey::from_str("9xQeWvG816bUx9EPjHmaT23yvVM2ZWbrrpZb9PusVFin").unwrap(),
+            model_registry: Pubkey::from_str("Fg6PaFpoGXkYsidMpWTK6W2BeZ7FEfcYkg476zPFsLnS").unwrap(),
+            worker_registry: Pubkey::from_str("HmbTLCmaGvZhKnn1Zfa1JVnp7vkMV4DYVxPLWBVoN65L").unwrap(),
+            rewards: Pubkey::from_str("4uQeVj5tqViQh7yWWGStvkEG1Zmhx6uasJtWCJziofM").unwrap(),
         }
     }
 }
