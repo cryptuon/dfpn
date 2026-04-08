@@ -54,10 +54,10 @@ RUN npm run build
 # ============================================================
 # Stage 3: Runtime image
 # ============================================================
-FROM nginx:1.27-alpine
+FROM nginx:1.27-bookworm
 
 # Install supervisord
-RUN apk add --no-cache supervisor
+RUN apt-get update && apt-get install -y --no-install-recommends supervisor && rm -rf /var/lib/apt/lists/*
 
 # Copy indexer binary
 COPY --from=rust-builder /build/target/release/dfpn-indexer /usr/local/bin/dfpn-indexer
@@ -77,6 +77,6 @@ RUN chmod +x /entrypoint.sh && \
 EXPOSE 80
 
 HEALTHCHECK --interval=30s --timeout=5s --start-period=10s \
-    CMD wget -q --spider http://localhost/api/health || exit 1
+    CMD curl -f -s http://localhost/api/health || exit 1
 
 ENTRYPOINT ["/entrypoint.sh"]
