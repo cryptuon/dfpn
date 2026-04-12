@@ -1,0 +1,13 @@
+---
+import DashboardLayout from '../components/layout/DashboardLayout.astro'
+import MyDashboardIsland from '../components/vue/MyDashboardIsland.vue'
+import AppHeaderIsland from '../components/vue/AppHeaderIsland.vue'
+---
+<DashboardLayout
+  title="My Dashboard | DFPN"
+  description="Your personal DFPN dashboard. View your worker status, stake, reputation, pending rewards, and submitted verification requests."
+  noindex={true}
+>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <MyDashboardIsland client:only="vue" />
+</DashboardLayout>

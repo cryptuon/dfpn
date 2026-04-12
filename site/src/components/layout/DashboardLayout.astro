@@ -1,0 +1,29 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import Sidebar from './Sidebar.astro'
+import Header from './Header.astro'
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+  type?: 'website' | 'article'
+  noindex?: boolean
+  canonicalUrl?: string
+}
+
+const props = Astro.props
+---
+
+<BaseLayout {...props}>
+  <slot name="head" slot="head" />
+  <Sidebar />
+  <div class="ml-60 transition-all duration-300">
+    <Header>
+      <slot name="header-actions" />
+    </Header>
+    <main class="p-6 max-w-7xl mx-auto">
+      <slot />
+    </main>
+  </div>
+</BaseLayout>

@@ -1,0 +1,15 @@
+---
+export const prerender = false
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import AppHeaderIsland from '../../components/vue/AppHeaderIsland.vue'
+import ModelDetailIsland from '../../components/vue/ModelDetailIsland.vue'
+
+const { id } = Astro.params
+---
+<DashboardLayout
+  title={`Model ${id} | DFPN Explorer`}
+  description={`Details for DFPN detection model ${id}: accuracy score, supported modalities, usage statistics, and developer information.`}
+>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <ModelDetailIsland id={id} client:only="vue" />
+</DashboardLayout>

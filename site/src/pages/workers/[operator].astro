@@ -1,0 +1,15 @@
+---
+export const prerender = false
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import AppHeaderIsland from '../../components/vue/AppHeaderIsland.vue'
+import WorkerDetailIsland from '../../components/vue/WorkerDetailIsland.vue'
+
+const { operator } = Astro.params
+---
+<DashboardLayout
+  title={`Worker ${operator?.slice(0, 8)}... | DFPN Explorer`}
+  description={`Details for DFPN worker ${operator}: stake, reputation, supported modalities, and task history.`}
+>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <WorkerDetailIsland operator={operator} client:only="vue" />
+</DashboardLayout>

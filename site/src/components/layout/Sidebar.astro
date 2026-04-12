@@ -1,0 +1,50 @@
+---
+import { navSections, isActivePath } from '../../lib/navigation'
+
+const currentPath = Astro.url.pathname
+---
+
+<aside
+  id="sidebar"
+  class="fixed left-0 top-0 h-full bg-dfpn-surface border-r border-dfpn-border z-30 transition-all duration-300 flex flex-col w-60"
+>
+  <!-- Logo -->
+  <div class="flex items-center gap-3 px-4 h-16 border-b border-dfpn-border shrink-0">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg bg-dfpn-primary flex items-center justify-center text-white font-bold text-sm shrink-0">
+        DF
+      </div>
+      <span class="font-bold text-lg text-white whitespace-nowrap">DFPN</span>
+    </a>
+  </div>
+
+  <!-- Navigation -->
+  <nav class="flex-1 py-2 px-2 overflow-y-auto">
+    {navSections.map((section) => (
+      <div class="mb-2">
+        <p class="text-[10px] font-semibold tracking-wider text-gray-500 uppercase px-3 pt-3 pb-1">
+          {section.label}
+        </p>
+        {section.items.map((item) => {
+          const active = isActivePath(currentPath, item)
+          return (
+            <a
+              href={item.path}
+              class:list={[
+                'flex items-center gap-3 px-3 py-2 rounded-lg text-sm font-medium transition-colors',
+                active
+                  ? 'bg-dfpn-primary/20 text-dfpn-primary-light'
+                  : 'text-gray-400 hover:text-gray-200 hover:bg-dfpn-surface-light',
+              ]}
+            >
+              <svg class="w-5 h-5 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d={item.icon} />
+              </svg>
+              <span class="whitespace-nowrap">{item.label}</span>
+            </a>
+          )
+        })}
+      </div>
+    ))}
+  </nav>
+</aside>

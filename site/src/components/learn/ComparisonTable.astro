@@ -1,0 +1,33 @@
+---
+interface Props {
+  columns: { key: string; label: string }[];
+  rows: Record<string, string>[];
+}
+
+const { columns, rows } = Astro.props;
+---
+
+<div class="bg-dfpn-surface border border-dfpn-border rounded-xl overflow-hidden">
+  <div class="overflow-x-auto">
+    <table class="w-full text-sm text-left">
+      <thead class="text-xs text-gray-400 uppercase bg-dfpn-surface-light border-b border-dfpn-border">
+        <tr>
+          {columns.map((col) => (
+            <th class="px-4 py-3 whitespace-nowrap">{col.label}</th>
+          ))}
+        </tr>
+      </thead>
+      <tbody>
+        {rows.map((row) => (
+          <tr class="border-b border-dfpn-border last:border-0">
+            {columns.map((col, j) => (
+              <td class:list={["px-4 py-3", j === 0 ? "font-medium text-white" : "text-gray-400"]}>
+                {row[col.key]}
+              </td>
+            ))}
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  </div>
+</div>

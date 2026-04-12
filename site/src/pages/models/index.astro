@@ -1,0 +1,19 @@
+---
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import JsonLd from '../../components/seo/JsonLd.astro'
+import ModelsIsland from '../../components/vue/ModelsIsland.vue'
+import AppHeaderIsland from '../../components/vue/AppHeaderIsland.vue'
+
+const breadcrumbLd = { '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://dfpn.cryptuon.com/' },
+  { '@type': 'ListItem', position: 2, name: 'Models', item: 'https://dfpn.cryptuon.com/models' },
+]}
+---
+<DashboardLayout
+  title="Detection Models | DFPN Explorer"
+  description="Browse registered deepfake detection models on DFPN. View accuracy scores, supported modalities, usage statistics, and model details."
+>
+  <Fragment slot="head"><JsonLd data={[breadcrumbLd]} /></Fragment>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <ModelsIsland client:only="vue" />
+</DashboardLayout>

@@ -1,0 +1,27 @@
+---
+const currentPath = Astro.url.pathname;
+
+const tabs = [
+  { path: "/learn/participate/workers", label: "Workers" },
+  { path: "/learn/participate/clients", label: "Clients" },
+  { path: "/learn/participate/model-developers", label: "Model Developers" },
+];
+---
+
+<div class="border-b border-dfpn-border mb-6">
+  <nav class="flex gap-0">
+    {tabs.map((tab) => (
+      <a
+        href={tab.path}
+        class:list={[
+          "px-5 py-3 text-sm font-medium border-b-2 transition-colors -mb-px",
+          currentPath === tab.path
+            ? "border-dfpn-primary text-white"
+            : "border-transparent text-gray-400 hover:text-gray-200 hover:border-gray-600",
+        ]}
+      >
+        {tab.label}
+      </a>
+    ))}
+  </nav>
+</div>

@@ -38,3 +38,7 @@ npm-debug.log*
 
 # MkDocs build
 documentation/site/
+
+# Astro
+site/.astro/
+site/dist/

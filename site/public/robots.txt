@@ -1,0 +1,38 @@
+# DFPN - Deepfake Proof Network
+# https://dfpn.cryptuon.com
+
+# AI Search Crawlers - explicitly allowed
+User-agent: GPTBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Bytespider
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Amazonbot
+Allow: /
+
+User-agent: anthropic-ai
+Allow: /
+
+User-agent: cohere-ai
+Allow: /
+
+# All other crawlers
+User-agent: *
+Allow: /
+Disallow: /my-dashboard
+Disallow: /api/
+
+Sitemap: https://dfpn.cryptuon.com/sitemap-index.xml

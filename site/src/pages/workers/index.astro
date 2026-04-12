@@ -1,0 +1,19 @@
+---
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import JsonLd from '../../components/seo/JsonLd.astro'
+import WorkersIsland from '../../components/vue/WorkersIsland.vue'
+import AppHeaderIsland from '../../components/vue/AppHeaderIsland.vue'
+
+const breadcrumbLd = { '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://dfpn.cryptuon.com/' },
+  { '@type': 'ListItem', position: 2, name: 'Workers', item: 'https://dfpn.cryptuon.com/workers' },
+]}
+---
+<DashboardLayout
+  title="Network Workers | DFPN Explorer"
+  description="Browse active DFPN workers running deepfake detection nodes. View reputation scores, stake amounts, supported modalities, and success rates."
+>
+  <Fragment slot="head"><JsonLd data={[breadcrumbLd]} /></Fragment>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <WorkersIsland client:only="vue" />
+</DashboardLayout>

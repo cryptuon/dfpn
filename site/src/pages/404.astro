@@ -1,0 +1,19 @@
+---
+import DashboardLayout from '../components/layout/DashboardLayout.astro'
+---
+<DashboardLayout
+  title="Page Not Found | DFPN"
+  description="The page you're looking for doesn't exist."
+  noindex={true}
+>
+  <div class="flex flex-col items-center justify-center py-24 text-center">
+    <h1 class="text-6xl font-bold text-white mb-4">404</h1>
+    <p class="text-xl text-gray-400 mb-8">The page you're looking for doesn't exist.</p>
+    <a
+      href="/"
+      class="px-6 py-2.5 bg-dfpn-primary hover:bg-dfpn-primary/80 text-white rounded-lg font-medium transition-colors"
+    >
+      Back to Home
+    </a>
+  </div>
+</DashboardLayout>

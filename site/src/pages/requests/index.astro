@@ -1,0 +1,19 @@
+---
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import JsonLd from '../../components/seo/JsonLd.astro'
+import RequestsIsland from '../../components/vue/RequestsIsland.vue'
+import AppHeaderIsland from '../../components/vue/AppHeaderIsland.vue'
+
+const breadcrumbLd = { '@type': 'BreadcrumbList', itemListElement: [
+  { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://dfpn.cryptuon.com/' },
+  { '@type': 'ListItem', position: 2, name: 'Requests', item: 'https://dfpn.cryptuon.com/requests' },
+]}
+---
+<DashboardLayout
+  title="Verification Requests | DFPN Explorer"
+  description="Browse deepfake verification requests on the DFPN network. Track analysis status, consensus results, and fee distribution."
+>
+  <Fragment slot="head"><JsonLd data={[breadcrumbLd]} /></Fragment>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <RequestsIsland client:only="vue" />
+</DashboardLayout>

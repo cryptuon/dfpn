@@ -1,0 +1,146 @@
+---
+import DashboardLayout from '../../../components/layout/DashboardLayout.astro'
+import JsonLd from '../../../components/seo/JsonLd.astro'
+import ParticipateTabNav from '../../../components/learn/ParticipateTabNav.astro'
+import InfoCard from '../../../components/learn/InfoCard.astro'
+import StepIndicator from '../../../components/learn/StepIndicator.astro'
+
+const webPageLd = {
+  '@type': 'WebPage',
+  name: 'Register Detection Models on DFPN',
+  description: 'How to register deepfake detection models on DFPN: lifecycle, staking requirements, revenue model, and output format specification.',
+  url: 'https://dfpn.cryptuon.com/learn/participate/model-developers',
+}
+
+const breadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://dfpn.cryptuon.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Learn', item: 'https://dfpn.cryptuon.com/learn' },
+    { '@type': 'ListItem', position: 3, name: 'Participate', item: 'https://dfpn.cryptuon.com/learn/participate/workers' },
+    { '@type': 'ListItem', position: 4, name: 'Model Developers', item: 'https://dfpn.cryptuon.com/learn/participate/model-developers' },
+  ],
+}
+
+const lifecycleSteps = [{number:1,title:'Develop Model',description:'Build a detection model for one or more modalities.'},{number:2,title:'Submit Metadata',description:'Register model name, version, modalities, and download URI on-chain.'},{number:3,title:'Stake DFPN',description:'Stake 20,000 DFPN per model version as a quality commitment.'},{number:4,title:'Benchmark',description:'The protocol tests your model on held-out datasets.'},{number:5,title:'Activation',description:'Model goes live once it meets accuracy thresholds.'},{number:6,title:'Adoption',description:'Workers deploy and use your model for detection tasks.'},{number:7,title:'Earn Revenue',description:'Receive 20% of fees from requests processed with your model.'}]
+
+const requirementCards = [
+  { title: 'Minimum Stake', icon: 'M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z', description: '20,000 DFPN per model version.' },
+  { title: 'Standard Output', icon: 'M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z', description: 'JSON format with verdict, confidence, and detections.' },
+  { title: 'Benchmark Passing', icon: 'M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z', description: 'Must meet accuracy thresholds on evaluation datasets.' },
+  { title: 'Modality Support', icon: 'M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01', description: 'Declare supported detection types: image, video, audio, face, voice.' },
+]
+---
+
+<DashboardLayout
+  title="Register Detection Models | DFPN Model Developers"
+  description="How to register deepfake detection models on DFPN: lifecycle, staking requirements, revenue model, and output format specification."
+>
+  <Fragment slot="head">
+    <JsonLd data={[webPageLd, breadcrumbLd]} />
+  </Fragment>
+
+  <div class="space-y-12">
+    <!-- Title -->
+    <h1 class="text-3xl font-bold text-white">Participate in DFPN</h1>
+
+    <!-- Tab Nav -->
+    <ParticipateTabNav />
+
+    <!-- Hero -->
+    <section class="bg-dfpn-surface border border-dfpn-border rounded-xl p-8 text-center space-y-4">
+      <h2 class="text-3xl font-bold text-white">Register Detection Models</h2>
+      <p class="text-lg text-gray-400 max-w-3xl mx-auto">
+        Model developers build and register deepfake detection algorithms on DFPN.
+        Earn revenue every time a worker uses your model to process a detection request.
+      </p>
+    </section>
+
+    <!-- Model Lifecycle -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-6">Model Lifecycle</h2>
+      <StepIndicator steps={lifecycleSteps} direction="vertical" />
+    </section>
+
+    <!-- Requirements -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4">Requirements</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+        {requirementCards.map((card) => (
+          <InfoCard icon={card.icon} title={card.title} description={card.description} />
+        ))}
+      </div>
+    </section>
+
+    <!-- Revenue Model -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4">Revenue Model</h2>
+      <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 space-y-4">
+        <p class="text-gray-400 leading-relaxed">
+          Model developers receive <span class="text-white font-semibold">20% of the fees</span> from every detection request that uses their model.
+          As adoption grows and more workers deploy your model, your revenue scales automatically.
+          High-accuracy models attract more workers, creating a positive feedback loop.
+        </p>
+        <div class="flex w-full h-8 rounded-lg overflow-hidden">
+          <div class="bg-dfpn-primary flex items-center justify-center text-xs font-medium text-white" style="width: 65%">
+            65% Workers
+          </div>
+          <div class="bg-emerald-600 flex items-center justify-center text-xs font-medium text-white" style="width: 20%">
+            20% You
+          </div>
+          <div class="bg-amber-600 flex items-center justify-center text-xs font-medium text-white" style="width: 10%">
+            10% Treasury
+          </div>
+          <div class="bg-blue-600 flex items-center justify-center text-xs font-medium text-white" style="width: 5%">
+            5% Ins.
+          </div>
+        </div>
+        <div class="flex flex-wrap gap-4 text-sm text-gray-400">
+          <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-dfpn-primary"></span> 65% Workers</span>
+          <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-emerald-600"></span> 20% Model Developer (You)</span>
+          <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-amber-600"></span> 10% Treasury</span>
+          <span class="flex items-center gap-2"><span class="w-3 h-3 rounded bg-blue-600"></span> 5% Insurance Fund</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Output Format -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-4">Output Format</h2>
+      <p class="text-gray-400 mb-4">All models must return results in the standard DFPN output format:</p>
+      <div class="bg-dfpn-surface border border-dfpn-border rounded-xl overflow-hidden">
+        <div class="bg-dfpn-surface-light border-b border-dfpn-border px-4 py-2">
+          <span class="text-xs text-gray-400 font-mono">response.json</span>
+        </div>
+        <pre class="p-4 text-sm text-gray-300 font-mono overflow-x-auto"><code>{`{
+  "verdict": "FAKE" | "REAL" | "UNCERTAIN",
+  "confidence": 0.0 - 1.0,
+  "detections": [
+    {
+      "type": "face_swap" | "ai_generated" | "lip_sync" | "voice_clone",
+      "confidence": 0.0 - 1.0,
+      "region": { "x": 0, "y": 0, "w": 100, "h": 100 },
+      "metadata": { ... }
+    }
+  ],
+  "model_id": "your-model-id",
+  "model_version": "1.0.0",
+  "processing_time_ms": 142
+}`}</code></pre>
+      </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
+      <h3 class="text-lg font-semibold text-white mb-4">Ready to register a model?</h3>
+      <div class="flex flex-wrap gap-4">
+        <a href="/learn" class="px-5 py-2.5 bg-dfpn-primary text-white text-sm font-medium rounded-lg hover:bg-dfpn-primary/80 transition-colors">
+          Back to Learn
+        </a>
+        <a href="/learn/faq" class="px-5 py-2.5 bg-dfpn-surface border border-dfpn-border text-gray-400 text-sm font-medium rounded-lg hover:border-dfpn-primary/30 transition-colors">
+          Read the FAQ
+        </a>
+      </div>
+    </section>
+  </div>
+</DashboardLayout>

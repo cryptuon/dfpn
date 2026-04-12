@@ -1,0 +1,101 @@
+---
+import BaseLayout from './BaseLayout.astro'
+import JsonLd from '../seo/JsonLd.astro'
+
+interface Props {
+  title: string
+  description: string
+  publishedAt: string
+  updatedAt?: string
+  author: string
+  tags: string[]
+  image?: string
+}
+
+const { title, description, publishedAt, updatedAt, author, tags, image } = Astro.props
+const siteUrl = 'https://dfpn.cryptuon.com'
+
+const articleLd = {
+  '@type': 'Article',
+  headline: title,
+  description,
+  image: image ? `${siteUrl}${image}` : `${siteUrl}/og-default.png`,
+  datePublished: publishedAt,
+  dateModified: updatedAt ?? publishedAt,
+  author: { '@type': 'Person', name: author },
+  publisher: {
+    '@type': 'Organization',
+    name: 'DFPN - Deepfake Proof Network',
+    logo: { '@type': 'ImageObject', url: `${siteUrl}/og-default.png` },
+  },
+}
+
+const breadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: `${siteUrl}/blog` },
+    { '@type': 'ListItem', position: 3, name: title, item: `${siteUrl}${Astro.url.pathname}` },
+  ],
+}
+---
+
+<BaseLayout
+  title={title}
+  description={description}
+  type="article"
+  publishedAt={publishedAt}
+  updatedAt={updatedAt}
+  author={author}
+  image={image}
+>
+  <Fragment slot="head">
+    <JsonLd data={[articleLd, breadcrumbLd]} />
+  </Fragment>
+
+  <div class="max-w-3xl mx-auto px-6 py-12">
+    <!-- Article Header -->
+    <header class="mb-10" itemscope itemtype="https://schema.org/Article">
+      <div class="flex flex-wrap gap-2 mb-4">
+        {tags.map((tag) => (
+          <span class="text-xs px-2 py-1 rounded-full bg-dfpn-primary/20 text-dfpn-primary-light font-medium">
+            {tag}
+          </span>
+        ))}
+      </div>
+      <h1 class="text-3xl md:text-4xl font-bold text-white mb-4" itemprop="headline">{title}</h1>
+      <p class="text-lg text-gray-400 mb-6" itemprop="description">{description}</p>
+      <div class="flex items-center gap-4 text-sm text-gray-500">
+        <span itemprop="author" itemscope itemtype="https://schema.org/Person">
+          By <span class="text-gray-300" itemprop="name">{author}</span>
+        </span>
+        <time datetime={publishedAt} itemprop="datePublished">
+          {new Date(publishedAt).toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' })}
+        </time>
+      </div>
+    </header>
+
+    <!-- Article Content -->
+    <article class="prose prose-invert prose-gray max-w-none
+      prose-headings:text-white prose-headings:font-bold
+      prose-h2:text-2xl prose-h2:mt-10 prose-h2:mb-4
+      prose-h3:text-xl prose-h3:mt-8 prose-h3:mb-3
+      prose-p:text-gray-400 prose-p:leading-relaxed
+      prose-a:text-dfpn-primary-light prose-a:no-underline hover:prose-a:underline
+      prose-strong:text-white
+      prose-code:text-dfpn-primary-light prose-code:bg-dfpn-surface prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded
+      prose-pre:bg-dfpn-surface prose-pre:border prose-pre:border-dfpn-border
+      prose-li:text-gray-400
+      prose-table:text-sm
+      prose-th:text-gray-300 prose-th:border-dfpn-border
+      prose-td:text-gray-400 prose-td:border-dfpn-border
+    ">
+      <slot />
+    </article>
+
+    <!-- Back to blog -->
+    <div class="mt-12 pt-8 border-t border-dfpn-border">
+      <a href="/blog" class="text-sm text-dfpn-primary-light hover:underline">&larr; Back to all articles</a>
+    </div>
+  </div>
+</BaseLayout>

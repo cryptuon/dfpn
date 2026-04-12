@@ -1,0 +1,41 @@
+# DFPN - Deepfake Proof Network
+
+> DFPN is a decentralized protocol for deepfake detection on Solana. Independent workers run AI detection models and reach consensus on whether media is authentic or manipulated. The protocol uses economic incentives (staking, rewards, slashing) to ensure honest behavior without central authority.
+
+## Key Facts
+- 4 detection models: face-forensics (97.2%), universal-fake-detect (99.8%), video-ftcn (96.4%), ssl-antispoofing (99.2%)
+- Detection latency: 50ms - 2s on GPU
+- Fee distribution: 65% workers, 20% model developers, 10% treasury, 5% insurance
+- Total token supply: 1 billion DFPN (SPL token on Solana)
+- Minimum worker stake: 5,000 DFPN
+- Commit-reveal protocol prevents result copying
+
+## Core Concepts
+- [What is DFPN](https://dfpn.cryptuon.com/learn): Overview of the decentralized deepfake detection protocol
+- [How It Works](https://dfpn.cryptuon.com/learn/how-it-works): Submit → Route → Download → Analyze → Commit → Reveal → Aggregate → Finalize → Reward
+- [Detection Models](https://dfpn.cryptuon.com/learn/detection-models): Face forensics, universal fake detect, video FTCN, SSL anti-spoofing
+- [Tokenomics](https://dfpn.cryptuon.com/learn/tokenomics): 1B DFPN token, 38% network rewards, 20% treasury, 18% team
+- [FAQ](https://dfpn.cryptuon.com/learn/faq): Common questions about DFPN
+
+## Participate
+- [For Workers](https://dfpn.cryptuon.com/learn/participate/workers): Run a detection node with GPU, earn DFPN tokens
+- [For Clients](https://dfpn.cryptuon.com/learn/participate/clients): Submit media for verification via SDK or API
+- [For Model Developers](https://dfpn.cryptuon.com/learn/participate/model-developers): Register detection models, earn 20% of fees
+
+## Network Explorer
+- [Workers](https://dfpn.cryptuon.com/workers): Browse active detection nodes
+- [Models](https://dfpn.cryptuon.com/models): Available detection models
+- [Requests](https://dfpn.cryptuon.com/requests): Verification request history
+
+## Blog
+- [Articles](https://dfpn.cryptuon.com/blog): Technical articles on deepfake detection, AI verification, and media authenticity
+
+## Roadmap
+- Phase 0: Research & Foundations (Completed)
+- Phase 1: Devnet MVP (Completed)
+- Phase 2: Testnet Pilot (In Progress)
+- Phase 3: Mainnet Beta (Upcoming)
+- Phase 4: Scale & Ecosystem (Upcoming)
+
+## Optional
+- [Full content for LLMs](https://dfpn.cryptuon.com/llms-full.txt): Complete text of all learn pages and blog articles

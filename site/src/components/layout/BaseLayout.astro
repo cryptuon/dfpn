@@ -1,0 +1,30 @@
+---
+import BaseHead from '../seo/BaseHead.astro'
+import '../../../src/styles/global.css'
+
+interface Props {
+  title: string
+  description: string
+  image?: string
+  type?: 'website' | 'article'
+  noindex?: boolean
+  canonicalUrl?: string
+  publishedAt?: string
+  updatedAt?: string
+  author?: string
+}
+
+const props = Astro.props
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead {...props}>
+      <slot name="head" />
+    </BaseHead>
+  </head>
+  <body class="min-h-screen bg-gray-950 text-gray-100">
+    <slot />
+  </body>
+</html>

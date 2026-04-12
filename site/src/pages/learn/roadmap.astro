@@ -1,0 +1,102 @@
+---
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import JsonLd from '../../components/seo/JsonLd.astro'
+import RoadmapTimeline from '../../components/learn/RoadmapTimeline.astro'
+
+const webPageLd = {
+  '@type': 'WebPage',
+  name: 'DFPN Roadmap',
+  description: 'Development timeline for DFPN from research foundations through mainnet launch and ecosystem scale.',
+  url: 'https://dfpn.cryptuon.com/learn/roadmap',
+}
+
+const breadcrumbLd = {
+  '@type': 'BreadcrumbList',
+  itemListElement: [
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://dfpn.cryptuon.com/' },
+    { '@type': 'ListItem', position: 2, name: 'Learn', item: 'https://dfpn.cryptuon.com/learn' },
+    { '@type': 'ListItem', position: 3, name: 'Roadmap', item: 'https://dfpn.cryptuon.com/learn/roadmap' },
+  ],
+}
+
+const phases = [
+  {
+    label: 'Phase 0',
+    title: 'Research & Foundations',
+    duration: '4-6 weeks',
+    items: ['Threat model definition', 'Dataset selection and curation', 'Evaluation harness building', 'Benchmark suite creation'],
+    status: 'completed' as const,
+  },
+  {
+    label: 'Phase 1',
+    title: 'Devnet MVP',
+    duration: '6-8 weeks',
+    items: ['Core Solana programs deployed', 'Content registry and marketplace', 'Single reference worker implementation', 'Commit-reveal protocol', 'Basic CLI and dashboard'],
+    status: 'completed' as const,
+  },
+  {
+    label: 'Phase 2',
+    title: 'Testnet Pilot',
+    duration: '8-10 weeks',
+    items: ['Worker registry and staking', 'Epoch-based scoring and rewards', 'Model versioning system', 'Indexer and REST API', 'Load testing and optimization'],
+    status: 'current' as const,
+  },
+  {
+    label: 'Phase 3',
+    title: 'Mainnet Beta',
+    duration: '8-12 weeks',
+    items: ['SPL token treasury launch', 'Governance via Realms', 'Security audits', 'Public beta with capped volume', 'Model marketplace'],
+    status: 'upcoming' as const,
+  },
+  {
+    label: 'Phase 4',
+    title: 'Scale & Ecosystem',
+    duration: 'Ongoing',
+    items: ['Advanced storage integrations', 'Specialized detection modes', 'Platform partnerships', 'Cross-chain bridges', 'Community governance expansion'],
+    status: 'upcoming' as const,
+  },
+]
+---
+
+<DashboardLayout
+  title="DFPN Roadmap | Deepfake Proof Network"
+  description="Development timeline for DFPN from research foundations through mainnet launch and ecosystem scale."
+>
+  <Fragment slot="head">
+    <JsonLd data={[webPageLd, breadcrumbLd]} />
+  </Fragment>
+
+  <div class="space-y-12">
+    <!-- Hero -->
+    <section class="bg-dfpn-surface border border-dfpn-border rounded-xl p-8">
+      <h1 class="text-4xl font-bold text-white mb-4">Development Roadmap</h1>
+      <p class="text-lg text-gray-400 max-w-3xl">
+        From research foundations through mainnet launch and beyond. DFPN is currently in the Testnet Pilot phase.
+      </p>
+    </section>
+
+    <!-- Timeline -->
+    <section>
+      <h2 class="text-2xl font-bold text-white mb-6">Phases</h2>
+      <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
+        <RoadmapTimeline phases={phases} />
+      </div>
+    </section>
+
+    <!-- Navigation -->
+    <section class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
+      <h3 class="text-lg font-semibold text-white mb-4">Continue learning</h3>
+      <div class="flex flex-wrap gap-4">
+        <a href="/learn" class="px-5 py-2.5 bg-dfpn-primary text-white text-sm font-medium rounded-lg hover:bg-dfpn-primary/80 transition-colors">
+          What is DFPN?
+        </a>
+        <a href="/learn/how-it-works" class="px-5 py-2.5 bg-dfpn-surface border border-dfpn-border text-gray-400 text-sm font-medium rounded-lg hover:border-dfpn-primary/30 transition-colors">
+          How It Works
+        </a>
+        <a href="/learn/tokenomics" class="px-5 py-2.5 bg-dfpn-surface border border-dfpn-border text-gray-400 text-sm font-medium rounded-lg hover:border-dfpn-primary/30 transition-colors">
+          Token Economics
+        </a>
+      </div>
+    </section>
+  </div>
+</DashboardLayout>

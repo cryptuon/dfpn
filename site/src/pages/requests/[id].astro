@@ -1,0 +1,15 @@
+---
+export const prerender = false
+import DashboardLayout from '../../components/layout/DashboardLayout.astro'
+import AppHeaderIsland from '../../components/vue/AppHeaderIsland.vue'
+import RequestDetailIsland from '../../components/vue/RequestDetailIsland.vue'
+
+const { id } = Astro.params
+---
+<DashboardLayout
+  title={`Request ${id?.slice(0, 8)}... | DFPN Explorer`}
+  description={`Details for DFPN verification request ${id}: status, fee, commits, reveals, and content analysis results.`}
+>
+  <AppHeaderIsland slot="header-actions" client:only="vue" />
+  <RequestDetailIsland id={id} client:only="vue" />
+</DashboardLayout>
