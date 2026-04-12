@@ -1,5 +1,5 @@
 ---
-import DashboardLayout from '../components/layout/DashboardLayout.astro'
+import HomeLayout from '../components/layout/HomeLayout.astro'
 import JsonLd from '../components/seo/JsonLd.astro'
 import OverviewIsland from '../components/vue/OverviewIsland.vue'
 import AppHeaderIsland from '../components/vue/AppHeaderIsland.vue'
@@ -10,6 +10,10 @@ const organizationLd = {
   url: 'https://dfpn.cryptuon.com',
   logo: 'https://dfpn.cryptuon.com/og-default.png',
   description: 'Decentralized deepfake detection protocol on Solana. Independent workers analyze media using AI models with consensus results recorded on-chain.',
+  sameAs: [
+    'https://github.com/cryptuon/dfpn',
+    'https://arxiv.org/abs/2311.18545',
+  ],
 }
 
 const websiteLd = {
@@ -29,15 +33,11 @@ const softwareLd = {
   applicationCategory: 'SecurityApplication',
   operatingSystem: 'Web',
   description: 'Decentralized deepfake detection network powered by economic incentives on Solana.',
-  offers: {
-    '@type': 'Offer',
-    price: '0',
-    priceCurrency: 'USD',
-  },
+  offers: { '@type': 'Offer', price: '0', priceCurrency: 'USD' },
 }
 ---
 
-<DashboardLayout
+<HomeLayout
   title="DFPN - Decentralized Deepfake Detection Network on Solana"
   description="DFPN is an open protocol for decentralized deepfake detection. Independent workers analyze media using AI models with consensus results recorded on Solana."
 >
@@ -47,110 +47,236 @@ const softwareLd = {
 
   <AppHeaderIsland slot="header-actions" client:only="vue" />
 
-  <div class="space-y-8">
-    <!-- Hero (static, SEO-crawlable) -->
-    <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 text-center space-y-6">
-      <h1 class="text-4xl font-bold text-white">Deepfake Proof Network</h1>
-      <p class="text-lg text-gray-400 max-w-2xl mx-auto">
-        Decentralized deepfake detection powered by economic incentives on Solana.
-        Independent workers run AI detection models and reach consensus on whether media is authentic or manipulated.
+  <!-- Hero -->
+  <section class="relative overflow-hidden">
+    <div class="absolute inset-0 bg-gradient-to-b from-dfpn-primary/10 via-transparent to-transparent pointer-events-none"></div>
+    <div class="max-w-5xl mx-auto px-6 pt-20 pb-16 text-center relative">
+      <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-dfpn-primary/20 text-dfpn-primary-light text-xs font-medium mb-6">
+        <span class="w-1.5 h-1.5 rounded-full bg-dfpn-accent animate-pulse"></span>
+        Testnet Pilot — Phase 2 Active
+      </div>
+      <h1 class="text-4xl md:text-6xl font-bold text-white mb-6 leading-tight">
+        Decentralized<br />Deepfake Detection
+      </h1>
+      <p class="text-lg md:text-xl text-gray-400 max-w-2xl mx-auto mb-10">
+        An open protocol on Solana where independent workers run AI detection models
+        and reach consensus on media authenticity. Trust, but verify — at scale.
       </p>
+      <div class="flex flex-wrap gap-4 justify-center mb-12">
+        <a href="/learn" class="px-6 py-3 bg-dfpn-primary text-white font-medium rounded-lg hover:bg-dfpn-primary/80 transition-colors">
+          Learn How It Works
+        </a>
+        <a href="/workers" class="px-6 py-3 bg-dfpn-surface border border-dfpn-border text-gray-300 font-medium rounded-lg hover:border-dfpn-primary/50 transition-colors">
+          Explore the Network
+        </a>
+        <a href="https://github.com/cryptuon/dfpn" target="_blank" rel="noopener noreferrer" class="px-6 py-3 bg-dfpn-surface border border-dfpn-border text-gray-300 font-medium rounded-lg hover:border-dfpn-primary/50 transition-colors flex items-center gap-2">
+          <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          GitHub
+        </a>
+      </div>
 
-      <!-- Live stats + activity (Vue island) -->
+      <!-- Live stats island -->
       <OverviewIsland client:only="vue" />
     </div>
+  </section>
 
-    <!-- What is DFPN (static, SEO-crawlable) -->
-    <section>
-      <h2 class="text-2xl font-bold text-white mb-4">What is DFPN?</h2>
-      <p class="text-gray-400 mb-6">
-        DFPN (Deepfake Proof Network) is a decentralized protocol that coordinates deepfake detection at scale.
-        Multiple independent workers analyze each media submission using specialized AI models, reaching consensus
-        on whether content is authentic or manipulated. Every result is recorded on the Solana blockchain for
-        full transparency and auditability.
-      </p>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
-          <div class="w-12 h-12 rounded-lg bg-dfpn-primary/20 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-dfpn-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Decentralized Detection</h3>
-          <p class="text-sm text-gray-400">Multiple independent workers analyze each request using different AI models for reliable, consensus-based results.</p>
+  <!-- Key Numbers -->
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
+      <div>
+        <p class="text-3xl md:text-4xl font-bold text-dfpn-primary-light">4</p>
+        <p class="text-sm text-gray-400 mt-1">Detection Models</p>
+      </div>
+      <div>
+        <p class="text-3xl md:text-4xl font-bold text-dfpn-primary-light">97-99%</p>
+        <p class="text-sm text-gray-400 mt-1">Model Accuracy</p>
+      </div>
+      <div>
+        <p class="text-3xl md:text-4xl font-bold text-dfpn-primary-light">50ms</p>
+        <p class="text-sm text-gray-400 mt-1">Detection Latency</p>
+      </div>
+      <div>
+        <p class="text-3xl md:text-4xl font-bold text-dfpn-primary-light">1B</p>
+        <p class="text-sm text-gray-400 mt-1">Token Supply</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- What is DFPN -->
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-white mb-4">What is DFPN?</h2>
+    <p class="text-gray-400 mb-8 max-w-3xl">
+      DFPN (Deepfake Proof Network) is a decentralized protocol that coordinates deepfake detection at scale.
+      Multiple independent workers analyze each media submission using specialized AI models, reaching consensus
+      on whether content is authentic or manipulated. Every result is recorded on the Solana blockchain for
+      full transparency and auditability.
+    </p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
+        <div class="w-12 h-12 rounded-lg bg-dfpn-primary/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-dfpn-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9" />
+          </svg>
         </div>
-        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
-          <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-          </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Earn Rewards</h3>
-          <p class="text-sm text-gray-400">Workers and model developers earn DFPN tokens for accurate contributions to the network.</p>
+        <h3 class="text-lg font-semibold text-white mb-2">Decentralized Detection</h3>
+        <p class="text-sm text-gray-400">Multiple independent workers analyze each request using different AI models for reliable, consensus-based results.</p>
+      </div>
+      <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
+        <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
         </div>
-        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
-          <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
+        <h3 class="text-lg font-semibold text-white mb-2">Earn Rewards</h3>
+        <p class="text-sm text-gray-400">Workers and model developers earn DFPN tokens for accurate contributions to the network.</p>
+      </div>
+      <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
+        <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">On-Chain Transparency</h3>
+        <p class="text-sm text-gray-400">Every request, analysis result, and reputation score is permanently recorded on the Solana blockchain.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Detection Models -->
+  <section class="bg-dfpn-surface/50 border-y border-dfpn-border">
+    <div class="max-w-5xl mx-auto px-6 py-16">
+      <h2 class="text-3xl font-bold text-white mb-4">Four Specialized Detection Models</h2>
+      <p class="text-gray-400 mb-8">Each model targets a specific type of synthetic media, running independently on worker hardware.</p>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl overflow-hidden">
+          <div class="h-1 bg-pink-500"></div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold text-white font-mono">face-forensics</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-pink-500/20 text-pink-400">Face Manipulation</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-1">SBI / EfficientNet-B4</p>
+            <p class="text-sm font-medium text-dfpn-primary-light">97.2% accuracy on FF++</p>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">On-Chain Transparency</h3>
-          <p class="text-sm text-gray-400">Every request, analysis result, and reputation score is permanently recorded on the Solana blockchain.</p>
+        </div>
+        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl overflow-hidden">
+          <div class="h-1 bg-purple-500"></div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold text-white font-mono">universal-fake-detect</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-purple-500/20 text-purple-400">AI Images</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-1">CLIP-ViT-L/14</p>
+            <p class="text-sm font-medium text-dfpn-primary-light">99.8% accuracy on ProGAN</p>
+          </div>
+        </div>
+        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl overflow-hidden">
+          <div class="h-1 bg-blue-500"></div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold text-white font-mono">video-ftcn</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-blue-500/20 text-blue-400">Video</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-1">Xception + Temporal CNN</p>
+            <p class="text-sm font-medium text-dfpn-primary-light">96.4% on FaceForensics++</p>
+          </div>
+        </div>
+        <div class="bg-dfpn-surface border border-dfpn-border rounded-xl overflow-hidden">
+          <div class="h-1 bg-emerald-500"></div>
+          <div class="p-6">
+            <div class="flex items-center justify-between mb-2">
+              <h3 class="font-semibold text-white font-mono">ssl-antispoofing</h3>
+              <span class="text-xs px-2 py-0.5 rounded-full bg-emerald-500/20 text-emerald-400">Voice Cloning</span>
+            </div>
+            <p class="text-sm text-gray-500 mb-1">wav2vec 2.0 / XLSR-53</p>
+            <p class="text-sm font-medium text-dfpn-primary-light">99.2% on ASVspoof</p>
+          </div>
         </div>
       </div>
-    </section>
+      <div class="mt-6 text-center">
+        <a href="/learn/detection-models" class="text-sm text-dfpn-primary-light hover:underline">View full model specifications &rarr;</a>
+      </div>
+    </div>
+  </section>
 
-    <!-- Get Involved (static, SEO-crawlable) -->
-    <section>
-      <h2 class="text-2xl font-bold text-white mb-4">Get Involved</h2>
-      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-        <a href="/learn/participate/workers" class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 hover:border-dfpn-primary/50 transition-colors group block">
-          <div class="w-12 h-12 rounded-lg bg-dfpn-primary/20 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-dfpn-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />
-            </svg>
+  <!-- Get Involved -->
+  <section class="max-w-5xl mx-auto px-6 py-16">
+    <h2 class="text-3xl font-bold text-white mb-4">Get Involved</h2>
+    <p class="text-gray-400 mb-8">Three ways to participate in the network.</p>
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+      <a href="/learn/participate/workers" class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 hover:border-dfpn-primary/50 transition-colors group block">
+        <div class="w-12 h-12 rounded-lg bg-dfpn-primary/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-dfpn-primary-light" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Workers</h3>
+        <p class="text-sm text-gray-400">Run detection nodes with your GPU and earn 65% of request fees.</p>
+        <span class="inline-block mt-3 text-sm text-dfpn-primary-light group-hover:underline">Learn more &rarr;</span>
+      </a>
+      <a href="/learn/participate/clients" class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 hover:border-dfpn-primary/50 transition-colors group block">
+        <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Clients</h3>
+        <p class="text-sm text-gray-400">Submit media for consensus-based deepfake verification.</p>
+        <span class="inline-block mt-3 text-sm text-dfpn-primary-light group-hover:underline">Learn more &rarr;</span>
+      </a>
+      <a href="/learn/participate/model-developers" class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 hover:border-dfpn-primary/50 transition-colors group block">
+        <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-4">
+          <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+          </svg>
+        </div>
+        <h3 class="text-lg font-semibold text-white mb-2">Model Developers</h3>
+        <p class="text-sm text-gray-400">Register detection models and earn 20% of every request fee.</p>
+        <span class="inline-block mt-3 text-sm text-dfpn-primary-light group-hover:underline">Learn more &rarr;</span>
+      </a>
+    </div>
+  </section>
+
+  <!-- Resources bar -->
+  <section class="max-w-5xl mx-auto px-6 pb-16">
+    <div class="bg-dfpn-surface border border-dfpn-border rounded-xl p-8">
+      <h3 class="text-xl font-semibold text-white mb-6">Resources</h3>
+      <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="https://docs.cryptuon.com/dfpn" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-4 rounded-lg bg-dfpn-surface-light hover:bg-dfpn-surface-light/80 transition-colors group">
+          <svg class="w-8 h-8 text-dfpn-primary-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.247 18 16.5 18c-1.746 0-3.332.477-4.5 1.253" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-white group-hover:text-dfpn-primary-light transition-colors">Documentation</p>
+            <p class="text-xs text-gray-500">docs.cryptuon.com</p>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Workers</h3>
-          <p class="text-sm text-gray-400">Run detection nodes with your GPU and earn rewards for analyzing media.</p>
-          <span class="inline-block mt-3 text-sm text-dfpn-primary-light group-hover:underline">Learn more &rarr;</span>
         </a>
-        <a href="/learn/participate/clients" class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 hover:border-dfpn-primary/50 transition-colors group block">
-          <div class="w-12 h-12 rounded-lg bg-emerald-500/20 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
-            </svg>
+        <a href="https://github.com/cryptuon/dfpn" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-4 rounded-lg bg-dfpn-surface-light hover:bg-dfpn-surface-light/80 transition-colors group">
+          <svg class="w-8 h-8 text-dfpn-primary-light shrink-0" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>
+          <div>
+            <p class="text-sm font-medium text-white group-hover:text-dfpn-primary-light transition-colors">GitHub</p>
+            <p class="text-xs text-gray-500">Source code</p>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Clients</h3>
-          <p class="text-sm text-gray-400">Submit media for deepfake analysis and receive consensus-based verification results.</p>
-          <span class="inline-block mt-3 text-sm text-dfpn-primary-light group-hover:underline">Learn more &rarr;</span>
         </a>
-        <a href="/learn/participate/model-developers" class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6 hover:border-dfpn-primary/50 transition-colors group block">
-          <div class="w-12 h-12 rounded-lg bg-blue-500/20 flex items-center justify-center mb-4">
-            <svg class="w-6 h-6 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
-            </svg>
+        <a href="https://arxiv.org/abs/2311.18545" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 p-4 rounded-lg bg-dfpn-surface-light hover:bg-dfpn-surface-light/80 transition-colors group">
+          <svg class="w-8 h-8 text-dfpn-primary-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m0 12.75h7.5m-7.5 3H12M10.5 2.25H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-white group-hover:text-dfpn-primary-light transition-colors">Research Paper</p>
+            <p class="text-xs text-gray-500">arXiv:2311.18545</p>
           </div>
-          <h3 class="text-lg font-semibold text-white mb-2">Model Developers</h3>
-          <p class="text-sm text-gray-400">Register deepfake detection models and earn from every request that uses them.</p>
-          <span class="inline-block mt-3 text-sm text-dfpn-primary-light group-hover:underline">Learn more &rarr;</span>
+        </a>
+        <a href="/blog" class="flex items-center gap-3 p-4 rounded-lg bg-dfpn-surface-light hover:bg-dfpn-surface-light/80 transition-colors group">
+          <svg class="w-8 h-8 text-dfpn-primary-light shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z" />
+          </svg>
+          <div>
+            <p class="text-sm font-medium text-white group-hover:text-dfpn-primary-light transition-colors">Blog</p>
+            <p class="text-xs text-gray-500">Technical articles</p>
+          </div>
         </a>
       </div>
-    </section>
-
-    <!-- Get Started Banner -->
-    <section class="bg-dfpn-surface border border-dfpn-border rounded-xl p-6">
-      <h3 class="text-lg font-semibold text-white mb-4">New to DFPN?</h3>
-      <div class="flex flex-wrap gap-4">
-        <a href="/learn" class="px-5 py-2.5 bg-dfpn-primary text-white text-sm font-medium rounded-lg hover:bg-dfpn-primary/80 transition-colors">
-          Learn what DFPN is
-        </a>
-        <a href="/learn/how-it-works" class="px-5 py-2.5 bg-dfpn-surface border border-dfpn-border text-gray-400 text-sm font-medium rounded-lg hover:border-dfpn-primary/30 transition-colors">
-          See how it works
-        </a>
-        <a href="/learn/faq" class="px-5 py-2.5 bg-dfpn-surface border border-dfpn-border text-gray-400 text-sm font-medium rounded-lg hover:border-dfpn-primary/30 transition-colors">
-          Read the FAQ
-        </a>
-      </div>
-    </section>
-  </div>
-</DashboardLayout>
+    </div>
+  </section>
+</HomeLayout>

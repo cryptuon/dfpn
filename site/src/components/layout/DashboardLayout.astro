@@ -1,7 +1,7 @@
 ---
 import BaseLayout from './BaseLayout.astro'
 import Sidebar from './Sidebar.astro'
-import Header from './Header.astro'
+import TopNav from './TopNav.astro'
 
 interface Props {
   title: string
@@ -17,13 +17,23 @@ const props = Astro.props
 
 <BaseLayout {...props}>
   <slot name="head" slot="head" />
-  <Sidebar />
-  <div class="ml-60 transition-all duration-300">
-    <Header>
-      <slot name="header-actions" />
-    </Header>
-    <main class="p-6 max-w-7xl mx-auto">
-      <slot />
-    </main>
+
+  <!-- Top navigation bar -->
+  <TopNav>
+    <slot name="header-actions" />
+  </TopNav>
+
+  <div class="flex">
+    <!-- Sidebar (hidden on mobile, shown on lg+) -->
+    <div class="hidden lg:block">
+      <Sidebar />
+    </div>
+
+    <!-- Main content -->
+    <div class="flex-1 lg:ml-60 transition-all duration-300">
+      <main class="p-6 max-w-7xl mx-auto">
+        <slot />
+      </main>
+    </div>
   </div>
 </BaseLayout>
