@@ -22,14 +22,16 @@ You do not need to stake tokens or run any infrastructure.
 
 | Method | Best For | Complexity |
 |--------|----------|------------|
-| **TypeScript SDK** | Node.js backends, web apps | Low |
-| **Python SDK** | ML pipelines, data processing | Low |
-| **REST API** | Quick prototypes, language-agnostic | Low |
-| **Direct RPC** | Custom Solana integrations | Medium |
+| **TypeScript SDK (`@dfpn/sdk`)** | Node.js backends, web apps | Low |
+| **REST API** (via the indexer) | Quick prototypes, language-agnostic reads | Low |
+| **Direct Solana RPC** | Custom integrations, other languages | Medium |
+
+!!! note "Language support today"
+    Only the TypeScript SDK ships in this repository (`sdk/dfpn-sdk`). For other languages, build instructions and discriminators in the `instructions.ts` module are a reasonable starting point for porting -- or talk to the indexer's REST API directly.
 
 ---
 
-## Quick Start with TypeScript SDK
+## Quick Start with the TypeScript SDK
 
 ### Install
 
@@ -39,68 +41,68 @@ npm install @dfpn/sdk @solana/web3.js
 
 ### Connect
 
-```typescript
-import { DFPNClient, Modality } from '@dfpn/sdk';
-import { Keypair } from '@solana/web3.js';
+The `DFPNClient` constructor takes a `Connection`, a `Wallet`, and optional `ClientOptions` (including overrides for program IDs). The `Wallet` shape matches the `@solana/wallet-adapter` interface: a `publicKey` plus `signTransaction` / `signAllTransactions`.
 
-const client = new DFPNClient({
-  network: 'devnet',
-  wallet: Keypair.fromSecretKey(/* your keypair bytes */),
-});
+```typescript
+import { Connection, Keypair } from '@solana/web3.js';
+import { DFPNClient } from '@dfpn/sdk';
+
+const connection = new Connection('https://api.devnet.solana.com', 'confirmed');
+const payer = Keypair.generate(); // or load your real keypair
+
+const wallet = {
+  publicKey: payer.publicKey,
+  signTransaction: async (tx) => { tx.partialSign(payer); return tx; },
+  signAllTransactions: async (txs) => txs.map((tx) => { tx.partialSign(payer); return tx; }),
+};
+
+const client = new DFPNClient(connection, wallet);
 ```
 
-### Submit a Request
+### Create a Request
+
+`createRequest` takes a `CreateRequestParams` object. The content hash is a 32-byte SHA-256 of the media bytes; helpers like `computeContentHash` and `modalitiesToBits` are re-exported from the SDK.
 
 ```typescript
-const request = await client.submitRequest({
-  mediaPath: './photo.jpg',
+import { Modality, computeContentHash } from '@dfpn/sdk';
+import { readFile } from 'node:fs/promises';
+
+const mediaBytes = await readFile('./photo.jpg');
+const contentHash = computeContentHash(mediaBytes); // Uint8Array of length 32
+
+const { requestId, signature } = await client.createRequest({
+  contentHash,
+  storageUri: 'https://your-bucket.example/photo.jpg',
   modalities: [Modality.FaceManipulation, Modality.ImageAuthenticity],
   minWorkers: 3,
-  maxFee: 0.01,  // SOL
-  deadline: Date.now() + 300_000,  // 5 minutes
+  feeAmount: 5_000_000_000n,           // DFPN base units (9 decimals)
+  deadline: new Date(Date.now() + 5 * 60_000),
+  priority: 'standard',                 // optional: 'standard' | 'high' | 'urgent'
 });
 
-console.log('Request ID:', request.id);
+console.log('Request ID:', requestId.toBase58());
+console.log('Tx signature:', signature);
 ```
 
 ### Wait for the Result
 
+`waitForResult` polls until the request status becomes `Finalized`, then returns an `AnalysisResult` assembled from the on-chain reveals.
+
 ```typescript
-const result = await client.waitForResult(request.id, {
-  timeout: 360_000,  // 6 minutes
+import { RequestStatus } from '@dfpn/sdk';
+
+const result = await client.waitForResult(requestId, {
+  timeout: 6 * 60_000,
+  pollInterval: 5_000,
+  onStatusUpdate: (status) => console.log('Status:', RequestStatus[status]),
 });
 
 console.log('Verdict:', result.verdict);
 console.log('Confidence:', result.confidence);
-console.log('Workers:', result.workerResults.length);
+console.log('Worker results:', result.workerResults.length);
 ```
 
----
-
-## Python SDK
-
-```python
-from dfpn import DFPNClient, Modality
-from solders.keypair import Keypair
-
-client = DFPNClient(
-    network="devnet",
-    wallet=Keypair.from_bytes(wallet_bytes),
-)
-
-request = client.submit_request(
-    media_path="./photo.jpg",
-    modalities=[Modality.FACE_MANIPULATION],
-    min_workers=3,
-    max_fee=0.01,
-    deadline_seconds=300,
-)
-
-result = client.wait_for_result(request.id, timeout=360)
-
-print(f"Verdict: {result.verdict}")
-print(f"Confidence: {result.confidence}%")
-```
+Other useful methods on `DFPNClient`: `getRequest`, `getRequestStatus`, `getResult`, `cancelRequest`, `listOpenRequests`, `registerContent`, `getContent`, `listWorkers`, `getWorker`, `listModels`, `getModel`.
 
 ---
 
@@ -234,30 +236,23 @@ Integrate detection into upload pipelines to label or restrict synthetic media, 
 
 ## Error Handling
 
-```typescript
-import { DFPNError, ErrorCode } from '@dfpn/sdk';
+The TypeScript SDK throws plain `Error` instances; failures from on-chain programs surface with the program error name and Anchor error code. Wrap calls in `try`/`catch` and inspect the message and the failing transaction signature:
 
+```typescript
 try {
-  const result = await client.submitRequest({ /* ... */ });
-} catch (error) {
-  if (error instanceof DFPNError) {
-    switch (error.code) {
-      case ErrorCode.INSUFFICIENT_FUNDS:
-        // Not enough SOL for the fee
-        break;
-      case ErrorCode.NO_WORKERS_AVAILABLE:
-        // No workers online for requested modalities
-        break;
-      case ErrorCode.DEADLINE_TOO_SHORT:
-        // Deadline must be at least 60 seconds
-        break;
-      case ErrorCode.CONTENT_HASH_MISMATCH:
-        // Uploaded file does not match the provided hash
-        break;
-    }
-  }
+  const { requestId } = await client.createRequest(params);
+  const result = await client.waitForResult(requestId, { timeout: 6 * 60_000 });
+  console.log(result.verdict);
+} catch (err) {
+  // Common cases:
+  //   "Timeout waiting for result"      -> increase deadline / timeout
+  //   "Request expired" / "cancelled"   -> request finalised without consensus
+  //   Anchor program errors             -> surface from the marketplace program
+  console.error('DFPN request failed:', err);
 }
 ```
+
+The `analysis-marketplace` program defines the structured error codes (insufficient fee, deadline-too-short, modality mismatch, etc.) -- see [`programs/analysis-marketplace/src/lib.rs`](https://github.com/cryptuon/dfpn/blob/main/programs/analysis-marketplace/src/lib.rs) for the authoritative list.
 
 !!! tip "Set realistic deadlines"
     Video analysis can take several minutes. Set deadlines of at least 3 minutes for images and 5-10 minutes for video to give workers enough time to process and go through the commit-reveal cycle.

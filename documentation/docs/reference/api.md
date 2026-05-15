@@ -310,38 +310,17 @@ Full-text search across model names and URIs.
 
 ## Rate Limits
 
-| Tier | Limit |
-|------|-------|
-| Anonymous | 100 requests per minute |
-| Authenticated | 1,000 requests per minute |
-
-Rate limit headers are included in every response:
-
-```
-X-RateLimit-Limit: 100
-X-RateLimit-Remaining: 87
-X-RateLimit-Reset: 1720000060
-```
-
-When the limit is exceeded the API returns `429 Too Many Requests`.
+The indexer does not enforce rate limits today -- it is intended to run behind your own ingress (nginx, Cloudflare, etc.), which is the recommended place to apply per-IP throttling for public deployments. If you operate a public mirror, treat the API as best-effort and protect it accordingly.
 
 ---
 
 ## Error Responses
 
-All errors follow a consistent shape:
-
-```json
-{
-  "error": "Not Found",
-  "message": "No request found with the given ID",
-  "status": 404
-}
-```
+The indexer signals errors with HTTP status codes only -- the response body is empty. Clients should branch on the status code:
 
 | HTTP Status | Meaning |
 |-------------|---------|
-| `400` | Bad request -- invalid query parameters or search syntax |
-| `404` | Resource not found |
-| `429` | Rate limit exceeded |
-| `500` | Internal server error |
+| `404` | Resource not found (e.g. unknown request, worker, or model ID) |
+| `500` | Internal server error (search/index failure -- check indexer logs) |
+
+A consistent JSON error envelope is on the roadmap and will be added without changing existing 2xx response shapes.

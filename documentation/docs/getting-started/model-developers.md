@@ -92,46 +92,33 @@ Upload your model weights and configuration to a stable, publicly accessible loc
 
 ### Step 3: Register On-Chain
 
-Use the SDK to register your model:
+The `model-registry` program exposes a `register_model` instruction that takes the following arguments:
 
-```typescript
-import { DFPNClient, Modality } from '@dfpn/sdk';
+| Argument | Type | Description |
+|----------|------|-------------|
+| `model_id` | `[u8; 32]` | Caller-chosen unique ID (typically a hash of name + version) |
+| `name` | `string` | Human-readable model name (max 64 chars) |
+| `version` | `string` | Semantic version string (max 32 chars) |
+| `modalities` | `u8` | Bitfield of supported modalities (see [Detection Models](../concepts/detection-models.md#supported-modalities)) |
+| `model_uri` | `string` | Stable URI where workers can download model artefacts |
+| `checksum` | `[u8; 32]` | SHA-256 of the model archive at `model_uri` |
+| `stake_amount` | `u64` | DFPN base units to stake (>= `MIN_MODEL_STAKE` from the SDK constants) |
 
-const client = new DFPNClient({
-  network: 'devnet',
-  wallet: developerKeypair,
-});
+You can build the instruction directly with Anchor IDLs, or with the lower-level helpers in `@dfpn/sdk` (`SEEDS`, `PROGRAM_IDS`, `deriveModelPDA`, `MIN_MODEL_STAKE`). A high-level `client.registerModel` helper on `DFPNClient` is on the roadmap but not yet shipped -- track the [Roadmap](../community/roadmap.md).
 
-const model = await client.registerModel({
-  name: 'FaceForensics-SBI',
-  version: '1.0.0',
-  description: 'SBI/EfficientNet-B4 face manipulation detector',
-  modalities: [Modality.FaceManipulation],
-  downloadUri: 'ipfs://QmYourModelHash',
-  runtime: 'python',        // python | docker | http
-  minGpuMemory: 8,          // GB, helps workers know if they can run it
-});
-
-console.log('Model ID:', model.id);
-```
+!!! note "Anchor client"
+    Until the helper lands, the most reliable path is to consume the program's Anchor IDL (`anchor build` writes it to `target/idl/model_registry.json`) and call `program.methods.registerModel(...)` with `@coral-xyz/anchor`.
 
 ### Step 4: Stake DFPN
 
-Staking happens as part of registration. Ensure your wallet holds at least 20,000 DFPN before calling `registerModel`. The SDK handles the staking transaction automatically.
+The stake is moved into a program-owned `stake_vault` PDA as part of the `register_model` transaction. Make sure the developer wallet's DFPN associated token account holds at least `MIN_MODEL_STAKE` (20,000 DFPN, in base units) and enough SOL to pay the rent and transaction fee.
 
-### Step 5: Wait for Benchmarks
+### Step 5: Benchmarking and Activation
 
-After registration, the protocol benchmark harness evaluates your model. This typically takes 1-24 hours depending on the modality and queue depth. You can check the status:
-
-```typescript
-const status = await client.getModelStatus(model.id);
-console.log('Status:', status.state);
-// "Pending" -> "Benchmarking" -> "Active" or "Rejected"
-console.log('Benchmark score:', status.benchmarkScore);
-```
+Today, the model becomes visible in the registry as soon as the `register_model` transaction confirms. Automated on-chain benchmark scoring and an explicit `Active` activation step are part of the Testnet Pilot phase -- see the [Roadmap](../community/roadmap.md). Until then, model quality is signalled by the model's `score` field, which is updated as workers report results.
 
 !!! tip "Test locally first"
-    Run your model against public benchmark datasets before registering. If your model fails the on-chain benchmarks, you will need to fix it and re-register (with a new stake).
+    Run your model against public benchmark datasets before registering. Re-registering a new version requires a separate stake.
 
 ---
 
@@ -221,15 +208,7 @@ A single model can declare multiple modalities if it supports them. Each modalit
 
 ## Versioning
 
-When you improve your model, register a new version rather than updating the existing one:
-
-```typescript
-const v2 = await client.registerModel({
-  name: 'FaceForensics-SBI',
-  version: '2.0.0',
-  // ... updated fields
-});
-```
+When you improve your model, register a new version rather than updating the existing one. Bump the `version` string, derive a new `model_id`, and call `register_model` again with a fresh `stake_amount`:
 
 - Each version requires a separate 20,000 DFPN stake
 - Old versions remain active until you retire them

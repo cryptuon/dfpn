@@ -30,7 +30,7 @@ Thank you for your interest in improving DFPN. This guide covers how to report i
 
 ```bash
 # Clone the repository
-git clone https://github.com/anthropics/dfpn.git
+git clone https://github.com/cryptuon/dfpn.git
 cd dfpn
 
 # Install Node.js dependencies
@@ -178,4 +178,4 @@ cargo test -p dfpn-worker
 
 ## License
 
-DFPN is released under the [MIT License](https://github.com/anthropics/dfpn/blob/main/LICENSE). By contributing, you agree that your contributions will be licensed under the same terms.
+DFPN is released under the [MIT License](https://github.com/cryptuon/dfpn/blob/main/LICENSE). By contributing, you agree that your contributions will be licensed under the same terms.

@@ -1,6 +1,9 @@
 site_name: DFPN Documentation
 site_description: Deepfake Proof Network - Decentralized deepfake detection on Solana
-site_url: https://dfpn.cryptuon.com/docs
+site_url: https://dfpn.docs.cryptuon.com/
+repo_url: https://github.com/cryptuon/dfpn
+repo_name: cryptuon/dfpn
+edit_uri: edit/main/documentation/docs/
 
 theme:
   name: material

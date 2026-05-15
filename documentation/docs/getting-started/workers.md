@@ -58,7 +58,7 @@ You should see your GPU listed with driver and CUDA versions.
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/dfpn/dfpn.git
+git clone https://github.com/cryptuon/dfpn.git
 cd dfpn
 ```
 
@@ -115,15 +115,19 @@ Edit `config-worker.yaml` with your preferences. See the [Configuration Referenc
 
 ### Step 7: Register and Start
 
-Register your worker on-chain and start the node:
+Register your worker on-chain and start the node. `--config` is a global flag on `dfpn-worker`; the `register` subcommand additionally requires `--stake` and `--modalities`:
 
 ```bash
 # Register as a worker (stakes your DFPN tokens)
-dfpn-worker register --config config-worker.yaml
+dfpn-worker --config config-worker.yaml register \
+  --stake 5000 \
+  --modalities image_authenticity,face_manipulation,voice_cloning,generated_content
 
 # Start the worker daemon
-dfpn-worker start --config config-worker.yaml
+dfpn-worker --config config-worker.yaml start
 ```
+
+Other subcommands exposed by the worker CLI: `status`, `tasks`, `rewards`, `claim-rewards`, `update`, `unstake`.
 
 !!! tip "Use a process manager"
     For production, run the worker under `systemd` or a similar process manager so it restarts automatically after crashes or reboots.
@@ -182,42 +186,32 @@ monitoring:
 
 ## Monitoring Your Node
 
-### Health Endpoint
-
-Your worker exposes a health check at `http://localhost:8080/health`:
-
-```bash
-curl http://localhost:8080/health
-```
-
-```json
-{
-  "status": "healthy",
-  "uptime_seconds": 86400,
-  "tasks_completed": 142,
-  "active_tasks": 2,
-  "gpu_utilization": 45
-}
-```
-
-### Metrics
-
-Prometheus metrics are available at `http://localhost:9090/metrics`. Key metrics to watch:
-
-- `dfpn_tasks_completed_total` -- total tasks processed
-- `dfpn_tasks_failed_total` -- total task failures
-- `dfpn_inference_duration_seconds` -- model inference time
-- `dfpn_gpu_memory_used_bytes` -- GPU memory consumption
-
 ### Logs
 
-```bash
-# Follow worker logs
-tail -f /var/log/dfpn-worker/worker.log
+The worker uses the `tracing` crate and writes structured logs to stdout. Use the `monitoring.log_level` config key (`trace` / `debug` / `info` / `warn` / `error`) to control verbosity, and redirect stdout to a file or your process manager's log destination.
 
-# Filter for errors
-grep ERROR /var/log/dfpn-worker/worker.log
+```bash
+# Run under systemd / supervisord and tail its journal, or redirect manually:
+dfpn-worker --config config-worker.yaml start > /var/log/dfpn-worker/worker.log 2>&1
 ```
+
+### On-Chain Status
+
+The worker CLI exposes inspection subcommands that read on-chain state directly:
+
+```bash
+# Show current registration, stake, reputation, and modalities
+dfpn-worker --config config-worker.yaml status
+
+# List recent tasks (defaults to the last 10)
+dfpn-worker --config config-worker.yaml tasks --limit 25
+
+# Show accumulated rewards
+dfpn-worker --config config-worker.yaml rewards
+```
+
+!!! info "Health and metrics ports are reserved"
+    The configuration accepts `monitoring.metrics_port` (default `9090`) and `monitoring.health_port` (default `8080`). These values are reserved for a Prometheus/health HTTP server that is on the roadmap but not yet wired up in the worker binary -- so don't expect the ports to respond today. Track the [Roadmap](../community/roadmap.md) for progress.
 
 ---
 
