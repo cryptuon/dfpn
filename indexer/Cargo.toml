@@ -3,6 +3,9 @@ name = "dfpn-indexer"
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
+authors = ["Cryptuon Research <contact@cryptuon.com>"]
+homepage = "https://dfpn.cryptuon.com/"
+repository = "https://github.com/cryptuon/dfpn"
 description = "Tantivy-based indexer for DFPN protocol events"
 
 [[bin]]

@@ -19,10 +19,22 @@
     "dfpn",
     "deepfake",
     "detection",
-    "blockchain"
+    "blockchain",
+    "depin",
+    "ai",
+    "content-verification"
   ],
-  "author": "DFPN Team",
+  "author": "Cryptuon Research <contact@cryptuon.com>",
   "license": "MIT",
+  "homepage": "https://dfpn.cryptuon.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cryptuon/dfpn.git",
+    "directory": "sdk/dfpn-sdk"
+  },
+  "bugs": {
+    "url": "https://github.com/cryptuon/dfpn/issues"
+  },
   "dependencies": {
     "@coral-xyz/anchor": "^0.30.1",
     "@solana/spl-token": "^0.4.0",

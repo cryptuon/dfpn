@@ -3,6 +3,16 @@
   "version": "0.1.0",
   "description": "Deepfake Proof Network - Decentralized coordination layer for deepfake detection",
   "private": true,
+  "author": "Cryptuon Research <contact@cryptuon.com>",
+  "license": "MIT",
+  "homepage": "https://dfpn.cryptuon.com/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cryptuon/dfpn.git"
+  },
+  "bugs": {
+    "url": "https://github.com/cryptuon/dfpn/issues"
+  },
   "workspaces": [
     "sdk/dfpn-sdk"
   ],

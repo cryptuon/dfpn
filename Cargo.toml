@@ -15,7 +15,10 @@ members = [
 version = "0.1.0"
 edition = "2021"
 license = "MIT"
-repository = "https://github.com/dfpn/dfpn"
+authors = ["Cryptuon Research <contact@cryptuon.com>"]
+homepage = "https://dfpn.cryptuon.com/"
+documentation = "https://docs.cryptuon.com/dfpn/"
+repository = "https://github.com/cryptuon/dfpn"
 
 [workspace.dependencies]
 anchor-lang = "0.30.1"

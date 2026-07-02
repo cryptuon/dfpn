@@ -18,6 +18,10 @@
   <a href="https://dfpn.cryptuon.com"><img src="https://img.shields.io/badge/Live-dfpn.cryptuon.com-8b5cf6?style=flat-square" alt="Live" /></a>
 </p>
 
+<p align="center">
+  <b><a href="https://dfpn.cryptuon.com/">🌐 Site</a> · <a href="https://docs.cryptuon.com/dfpn/">📚 Docs</a> · <a href="https://github.com/cryptuon">🔬 Cryptuon Research</a></b>
+</p>
+
 <br/>
 
 > **DFPN is a decentralized coordination layer for deepfake detection on Solana.** It connects clients who need media verified with independent node operators running their own detection models and GPU infrastructure. Economic incentives -- staking, rewards, and slashing -- ensure honest, accurate results without any central authority.
@@ -301,3 +305,13 @@ Full documentation is available at [dfpn.cryptuon.com](https://dfpn.cryptuon.com
   <b>DFPN</b> -- Trust, but verify. At scale.<br/>
   <a href="LICENSE">MIT License</a>
 </p>
+
+---
+
+## Part of Cryptuon Research
+
+`dfpn` is one of [20 open-source blockchain-infrastructure projects](https://www.cryptuon.com/projects) from **[Cryptuon Research](https://www.cryptuon.com)** — blockchain theory, shipped as protocols.
+
+**Related projects:** [SolanaLM](https://solanalm.cryptuon.com/) · [Mentat](https://mentat.cryptuon.com/) · [Njord](https://njord.cryptuon.com/)
+
+Docs: [docs.cryptuon.com/dfpn](https://docs.cryptuon.com/dfpn/) · Contact: [contact@cryptuon.com](mailto:contact@cryptuon.com)
