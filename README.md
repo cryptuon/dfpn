@@ -3,7 +3,7 @@
 </p>
 
 <h1 align="center">DFPN</h1>
-<h3 align="center">The Decentralized Immune System Against Synthetic Media</h3>
+<h3 align="center">A decentralized AI-verification network for synthetic media — on Solana</h3>
 
 <p align="center">
   <a href="https://solana.com"><img src="https://img.shields.io/badge/Built%20on-Solana-9945FF?style=for-the-badge&logo=solana&logoColor=white" alt="Solana" /></a>
@@ -25,6 +25,8 @@
 <br/>
 
 > **DFPN is a decentralized coordination layer for deepfake detection on Solana.** It connects clients who need media verified with independent node operators running their own detection models and GPU infrastructure. Economic incentives -- staking, rewards, and slashing -- ensure honest, accurate results without any central authority.
+
+> **In 2026 terms:** DFPN is *verifiable AI as DePIN*. Many independent operators run detection models on their own GPUs; a commit-reveal protocol stops them copying each other; outliers get slashed; and every verdict is anchored on-chain with a reconstructable audit trail. It sits at the intersection of two of the year's strongest theses — **on-chain & verifiable AI** and **decentralized physical infrastructure (DePIN)** — applied to the one AI output nobody can afford to take on trust: whether a piece of media is real. See the [**ROADMAP**](ROADMAP.md) for the phased path to mainnet and the cheapest route to production.
 
 <br/>
 
@@ -52,6 +54,19 @@
 AI-generated synthetic media is growing exponentially. Face swaps, voice clones, generated images, and manipulated videos erode trust in digital content. Centralized detection services create single points of failure, lack transparency, and concentrate power over what is deemed "real."
 
 **DFPN decentralizes the solution.** Independent operators run diverse detection models. Economic incentives replace trust. On-chain transparency replaces black boxes.
+
+---
+
+## Why This Matters in 2026
+
+Two narratives are converging, and DFPN sits exactly where they meet:
+
+- **On-chain & verifiable AI.** As AI systems make more consequential decisions, "just trust the model" stops being acceptable. The open question of the year is *how do you verify an AI output without re-running it yourself?* DFPN's answer is economic: have many independent operators run the model, commit-reveal their results so they cannot copy each other, weight the aggregate by reputation, and slash the outliers. The verdict is not one company's opinion — it is a staked, auditable consensus.
+- **DePIN (decentralized physical infrastructure).** Detection is GPU-bound physical work. DFPN is a DePIN network whose "physical resource" is inference capacity: operators contribute real GPUs, earn DFPN for accurate work, and the network's capacity scales with whoever plugs in hardware — no central data center, no single kill switch.
+
+Deepfake detection is the ideal first application of verifiable-AI-as-DePIN because the output is a **single, checkable claim** ("manipulated / authentic / inconclusive") with real economic stakes and no privileged party who should own the answer. Newsrooms, platforms, and courts do not want a black-box score from one vendor — they want a verdict they can reconstruct and defend.
+
+DFPN is deliberately *narrow and honest*: it is not a general "AI oracle," not a takedown service, and not a claim that detection is solved. It is a coordination layer that makes decentralized detection economically sound. The phased plan — and the cheapest path to a live network — is in [**ROADMAP.md**](ROADMAP.md).
 
 ---
 
@@ -287,6 +302,7 @@ Full documentation is available at [dfpn.cryptuon.com](https://dfpn.cryptuon.com
 - [Tokenomics](documentation/docs/concepts/tokenomics.md) -- Supply, emissions, staking, rewards, slashing
 - [API Reference](documentation/docs/reference/api.md) -- REST API endpoints and response formats
 - [FAQ](documentation/docs/community/faq.md) -- Common questions answered
+- [Roadmap](ROADMAP.md) -- Vision, phased milestones, and the cheapest path to production
 
 ## Technology
 
